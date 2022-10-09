@@ -29,12 +29,10 @@ class AuthProvider extends StateNotifier<Map<String, dynamic>> {
     }
   }
 
-  Future<Map<String, dynamic>> register(
-      String name, String email, String phone, String password) async {
+  Future<Map<String, dynamic>> register(Map registran) async {
     try {
       print('auth provider ==> register..');
-      var result =
-          await _userProvider!.registrasi(name, email, phone, password);
+      var result = await _userProvider!.registrasi(registran);
 
       state = result;
       return result;

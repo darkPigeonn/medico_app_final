@@ -64,6 +64,7 @@ dev_dependencies:
   webview_flutter: ^2.0.13
   intl: ^0.17.0
   google_maps_flutter: ^2.2.0
+  snippet_coder_utils: ^1.0.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

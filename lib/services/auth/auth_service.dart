@@ -76,8 +76,7 @@ class AuthService {
     }
   }
 
-  Future<Map<String, dynamic>> registrasi(
-      String name, String email, String phone, String password) async {
+  Future<Map<String, dynamic>> registrasi(Map registran) async {
     try {
       bool isConnect = await CheckConnectivity.checkConnection();
       if (!isConnect) {
@@ -85,30 +84,32 @@ class AuthService {
       }
 
       print("auth service ==> register...");
-      final url = Uri.parse(urlApi + 'register');
+      final url = Uri.parse(urlApi + 'users/account');
       final deviceId = await getDeviceId();
-
-      Map data = {
-        'name': name,
-        'email': email,
-        'phone': phone,
-        'password': password,
-        'device_id': deviceId
-      };
+      print(url);
+      print(registran);
 
       final response = await http.post(
         url,
-        headers: {"Content-type": "application/json"},
-        body: json.encode(data),
+        body: json.encode(registran),
+        headers: {
+          "id": APP_ID,
+          "secret": APP_SECRET,
+          "Content-type": "application/json"
+        },
       );
 
       var dataErr;
 
       var jsonData = json.decode(response.body);
-      if (jsonData['code'] == 200) {
-        return {'code': '200', 'msg': 'berhasil ragistrasi'};
+      print(jsonData);
+      if (response.statusCode == 200) {
+        clearLimiter();
+        saveSessionUser(jsonData['profileToken']);
+        return jsonData;
       } else {
-        dataErr = {'msg': jsonData['message']};
+        saveLimiter();
+        dataErr = {'code': jsonData['code'], 'msg': jsonData['message']};
         throw (dataErr);
       }
     } catch (e) {

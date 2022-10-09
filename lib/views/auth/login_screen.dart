@@ -149,14 +149,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Positioned(
-                top: 0,
-                left: 0,
-                child: Image.network(
-                  "https://capekngoding.com/uploads/62f680369803f_main_top.png",
-                  width: 120,
-                ),
-              ),
               SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
