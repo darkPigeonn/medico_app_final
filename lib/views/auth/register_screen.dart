@@ -70,37 +70,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (passwordController.text.isEmpty) {
       messageSnackBar(context, "password harus diisi!");
     }
-    if (dobController.text.isEmpty) {
-      messageSnackBar(context, "tanggal lahir harus diisi!");
-    }
+    // if (selectedYear.toString().isEmpty ||
+    //     selectedMonth.toString().isEmpty ||
+    //     selectedDay.toString().isEmpty) {
+    //   messageSnackBar(context, "tanggal lahir harus diisi!");
+    // }
     if (addressController.text.isEmpty) {
       messageSnackBar(context, "alamat harus diisi!");
     }
-    if (alergiController.text.isEmpty) {
-      messageSnackBar(context, "alergi harus diisi!");
-    }
+    // if (alergiController.text.isEmpty) {
+    //   messageSnackBar(context, "alergi harus diisi!");
+    // }
 
     if (namaController.text.isNotEmpty &
         emailController.text.isNotEmpty &
         notlpController.text.isNotEmpty &
         passwordController.text.isNotEmpty &
-        nikController.text.isNotEmpty &
-        dobController.text.isNotEmpty &
-        addressController.text.isNotEmpty &
-        alergiController.text.isNotEmpty) {
+        nikController.text.isNotEmpty) {
       int sex = dropdownValue == 'Perempuan' ? 0 : 1;
       Map registran = {
         'nik': nikController.text,
         'name': namaController.text,
         'sex': sex,
-        'dob': dobController.text,
+        'dob': selectedMonth.toString() +
+            '-' +
+            selectedDay.toString() +
+            '-' +
+            selectedYear.toString(),
         'address': addressController.text,
         'allergy': alergiController.text,
         'email': emailController.text,
         'phoneNumber': notlpController.text,
         'password': passwordController.text
       };
-
+      print('disini');
       await context
           .read(authProvider.notifier)
           .register(registran)
@@ -111,6 +114,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }).catchError((onError) {
         messageSnackBar(context, onError['msg']);
       });
+    } else {
+      print('disisni');
     }
 
     setState(() {
@@ -136,280 +141,283 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                    child: Text(
-                      'Buat Akun',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: Text(
+                        'Buat Akun',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  child: Image.asset(
-                    'assets/signup.png',
-                    width: 300,
+                  Container(
+                    child: Image.asset(
+                      'assets/signup.png',
+                      width: 300,
+                    ),
+                  ),
+                ],
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('NIK')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: nikController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Nama')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: namaController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Jenis Kelamin')),
+                          Text(' : '),
+                          Expanded(
+                              child: DropdownButton<String>(
+                            value: dropdownValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                print(value);
+                                dropdownValue = value!;
+                                print(dropdownValue);
+                              });
+                            },
+                            items: jenisKelamin
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Tanggal Lahir')),
+                          Text(' : '),
+                          // Expanded(
+                          //     child: TextField(
+                          //   readOnly: true,
+                          //   controller: dobController,
+                          //   onTap: () async {
+                          //     DateTime? pickedDate = await showDatePicker(
+                          //       context: context,
+                          //       initialDatePickerMode: DatePickerMode.year,
+                          //       initialDate: DateTime.now(),
+                          //       firstDate: DateTime(1945),
+                          //       lastDate: DateTime(2100),
+                          //     );
+
+                          //     if (pickedDate != null) {
+                          //       String formatDate =
+                          //           DateFormat('yyyy-MM-dd').format(pickedDate);
+
+                          //       print(formatDate);
+                          //       setState(() {
+                          //         dobController.text = formatDate.toString();
+                          //       });
+                          //     }
+                          //   },
+                          // )),
+                          Expanded(
+                              child: Row(
+                            children: [
+                              DropdownButton(
+                                isExpanded: false,
+                                items: tanggal.map((item) {
+                                  return new DropdownMenuItem(
+                                    child: Container(
+                                      width: 20,
+                                      child: new Text(
+                                        item,
+                                      ),
+                                    ),
+                                    value: item,
+                                  );
+                                }).toList(),
+                                menuMaxHeight: 200,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedDay = value;
+                                  });
+                                },
+                                value: selectedDay,
+                                hint: Text('Tanggal'),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decorationColor: Colors.red),
+                              ),
+                              DropdownButton(
+                                isExpanded: false,
+                                items: bulan.map((item) {
+                                  return new DropdownMenuItem(
+                                    child: Container(
+                                      width: 80,
+                                      child: new Text(
+                                        item['label'],
+                                      ),
+                                    ),
+                                    value: item['value'].toString(),
+                                  );
+                                }).toList(),
+                                menuMaxHeight: 200,
+                                onChanged: (value) {
+                                  print(value);
+                                  setState(() {
+                                    selectedMonth = value.toString();
+                                  });
+                                },
+                                value: selectedMonth,
+                                hint: Text('Bulan'),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decorationColor: Colors.red),
+                              ),
+                              DropdownButton(
+                                isExpanded: false,
+                                items: years.map((item) {
+                                  return new DropdownMenuItem(
+                                    child: Container(
+                                      width: 40,
+                                      child: new Text(
+                                        item,
+                                      ),
+                                    ),
+                                    value: item,
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedYear = value.toString();
+                                  });
+                                },
+                                menuMaxHeight: 200,
+                                value: selectedYear,
+                                hint: Text('Tahun'),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decorationColor: Colors.red),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Alamat')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: addressController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Container(width: 90, child: Text('Alergi')),
+                      //     Text(' : '),
+                      //     Expanded(
+                      //       child: TextField(
+                      //         controller: alergiController,
+                      //         onSubmitted: (String value) async {},
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Email')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: emailController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Telephone')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: notlpController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(width: 90, child: Text('Password')),
+                          Text(' : '),
+                          Expanded(
+                            child: TextField(
+                              controller: passwordController,
+                              onSubmitted: (String value) async {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      PrimaryButton(
+                        hint: 'Daftar',
+                        onTap: () async {
+                          doRegister();
+                        },
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.all(20),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('NIK')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: nikController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Nama')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: namaController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Jenis Kelamin')),
-                        Text(' : '),
-                        Expanded(
-                            child: DropdownButton<String>(
-                          value: dropdownValue,
-                          onChanged: (String? value) {
-                            setState(() {
-                              print(value);
-                              dropdownValue = value!;
-                              print(dropdownValue);
-                            });
-                          },
-                          items: jenisKelamin
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Tanggal Lahir')),
-                        Text(' : '),
-                        // Expanded(
-                        //     child: TextField(
-                        //   readOnly: true,
-                        //   controller: dobController,
-                        //   onTap: () async {
-                        //     DateTime? pickedDate = await showDatePicker(
-                        //       context: context,
-                        //       initialDatePickerMode: DatePickerMode.year,
-                        //       initialDate: DateTime.now(),
-                        //       firstDate: DateTime(1945),
-                        //       lastDate: DateTime(2100),
-                        //     );
-
-                        //     if (pickedDate != null) {
-                        //       String formatDate =
-                        //           DateFormat('yyyy-MM-dd').format(pickedDate);
-
-                        //       print(formatDate);
-                        //       setState(() {
-                        //         dobController.text = formatDate.toString();
-                        //       });
-                        //     }
-                        //   },
-                        // )),
-                        Expanded(
-                            child: Row(
-                          children: [
-                            DropdownButton(
-                              isExpanded: false,
-                              items: tanggal.map((item) {
-                                return new DropdownMenuItem(
-                                  child: Container(
-                                    width: 20,
-                                    child: new Text(
-                                      item,
-                                    ),
-                                  ),
-                                  value: item,
-                                );
-                              }).toList(),
-                              menuMaxHeight: 200,
-                              onChanged: (value) {
-                                setState(() {
-                                  // selectedLeaveType = value;
-                                });
-                              },
-                              value: selectedDay,
-                              hint: Text('Tanggal'),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  decorationColor: Colors.red),
-                            ),
-                            DropdownButton(
-                              isExpanded: false,
-                              items: bulan.map((item) {
-                                return new DropdownMenuItem(
-                                  child: Container(
-                                    width: 80,
-                                    child: new Text(
-                                      item['label'],
-                                    ),
-                                  ),
-                                  value: item['value'],
-                                );
-                              }).toList(),
-                              menuMaxHeight: 200,
-                              onChanged: (value) {
-                                setState(() {
-                                  // selectedLeaveType = value;
-                                });
-                              },
-                              value: selectedMonth,
-                              hint: Text('Bulan'),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  decorationColor: Colors.red),
-                            ),
-                            DropdownButton(
-                              isExpanded: false,
-                              items: years.map((item) {
-                                return new DropdownMenuItem(
-                                  child: Container(
-                                    width: 40,
-                                    child: new Text(
-                                      item,
-                                    ),
-                                  ),
-                                  value: item,
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  // selectedLeaveType = value;
-                                });
-                              },
-                              menuMaxHeight: 200,
-                              value: selectedYear,
-                              hint: Text('Tahun'),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  decorationColor: Colors.red),
-                            ),
-                          ],
-                        )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Alamat')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: addressController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Container(width: 90, child: Text('Alergi')),
-                    //     Text(' : '),
-                    //     Expanded(
-                    //       child: TextField(
-                    //         controller: alergiController,
-                    //         onSubmitted: (String value) async {},
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Email')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: emailController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Telephone')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: notlpController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(width: 90, child: Text('Password')),
-                        Text(' : '),
-                        Expanded(
-                          child: TextField(
-                            controller: passwordController,
-                            onSubmitted: (String value) async {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    PrimaryButton(
-                      hint: 'Daftar',
-                      onTap: () async {
-                        doRegister();
-                      },
-                    )
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
