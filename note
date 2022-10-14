@@ -1,19 +1,19 @@
-1. Text = ex "Ada Tab"
-2. Filter Text
-3. Rp hilangkan '.' 
+1. Text = ex "Ada Tab" => Done
+2. Filter Text => Done (Tetap dari mobile)
+3. Rp hilangkan '.' => Done
 4. Kategori
-5. app bar mepet , step nya dibuat lebih rapi lagi
-6. Button Selanjutnya diganti warna
+5. app bar mepet , step nya dibuat lebih rapi lagi => Waiting to chosse Step or another
+6. Button Selanjutnya diganti warna => Done
 7. Detail Reservasi : lihat Go Jek
     - Jarak antar item terlalu mepet
     - jarak label terlalu panjang
     - Sub-klinik => Poli
     - Tanggal , bulan diganti Nama
     - Jam
-    - kasih halaman sukses
 8. Halaman sukses
 9. App bar harus putih
-10. Label Status
-11. Detail reservasi name double => 
+10. Label Status => Done (Tetap dari mobile)
+11. Detail reservasi name double =>
 12. Footer menu
 13. FCM
+14. Boarding
