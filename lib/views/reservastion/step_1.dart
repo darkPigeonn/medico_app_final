@@ -73,7 +73,7 @@ class _CreateStep1State extends State<CreateStep1> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      'Silahkan Pilih Suboutlet',
+                      'Silahkan Pilih Poli',
                       style: TextStyle(
                         fontSize: 16,
                         color: mWhite,

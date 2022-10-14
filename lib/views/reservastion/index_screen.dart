@@ -45,8 +45,8 @@ class _IndexReservationState extends State<IndexReservation> {
         case '0':
           status = 'Menunggu';
           break;
-        case '1':
-          status = 'Tersejui';
+        case '70':
+          status = 'Telah Diantrikan';
           break;
         default:
           status = 'Ditolak';
@@ -90,27 +90,27 @@ class _IndexReservationState extends State<IndexReservation> {
         elevation: 0,
         backgroundColor: mPrimary,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                generateSlideTransition(
-                  IndexLogReservasi(),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.list,
-              color: Colors.black,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       generateSlideTransition(
+          //         IndexLogReservasi(),
+          //       ),
+          //     );
+          //   },
+          //   icon: Icon(
+          //     Icons.list,
+          //     color: Colors.black,
+          //   ),
+          // ),
           IconButton(
             onPressed: () {
               initialData();
             },
             icon: Icon(
               Icons.replay_outlined,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ],

@@ -12,6 +12,7 @@ import 'package:medico_app/utils/helpers.dart';
 import 'package:medico_app/utils/membership_badge.dart';
 import 'package:medico_app/utils/message.dart';
 import 'package:medico_app/utils/primary_button.dart';
+import 'package:medico_app/utils/text_style.dart';
 import 'package:medico_app/utils/transition.dart';
 import 'package:medico_app/views/reservastion/step_3.dart';
 import 'package:medico_app/views/user/topup/index.dart';
@@ -20,6 +21,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 class CreateStep2 extends StatefulWidget {
   final SublistModel sublist;
@@ -67,6 +70,7 @@ class _CreateStep2State extends State<CreateStep2> {
       // print(selectedServices[i].name);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +173,9 @@ class _CreateStep2State extends State<CreateStep2> {
                                                       Container(
                                                         width: 150,
                                                         child: Text(
-                                                          e.name.toString(),
+                                                          e.name
+                                                              .toString()
+                                                              .capitalizeFirstofEach,
                                                           maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -181,7 +187,7 @@ class _CreateStep2State extends State<CreateStep2> {
                                                       ),
                                                       Divider(),
                                                       Container(
-                                                        child: Text('Rp. ' +
+                                                        child: Text('Rp ' +
                                                             e.price.toString()),
                                                       )
                                                     ],
@@ -238,7 +244,9 @@ class _CreateStep2State extends State<CreateStep2> {
                       ? Align(
                           alignment: Alignment.bottomCenter,
                           child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              color: Colors.green,
+                              width: MediaQuery.of(context).size.width,
                               height: 50,
                               child: Row(
                                 mainAxisAlignment:
@@ -257,7 +265,7 @@ class _CreateStep2State extends State<CreateStep2> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          'Rp. ' + totalPrice.toString(),
+                                          'Rp ' + totalPrice.toString(),
                                           style: TextStyle(
                                               color: mWhite,
                                               fontSize: 18,
@@ -280,6 +288,7 @@ class _CreateStep2State extends State<CreateStep2> {
                                           ),
                                         );
                                       },
+
                                       child: Text('Selanjutnya'))
                                 ],
                               )), //last one
