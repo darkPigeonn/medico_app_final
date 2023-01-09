@@ -97,7 +97,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                 Container(
                   margin: EdgeInsets.all(10),
                   child: PrimaryTextFieldFormat(
-                    hintText: "Rp.",
+                    hintText: "Rp",
                     txtInputType: TextInputType.number,
                     controller: nominalController,
                   ),
@@ -171,7 +171,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                 children: [
                   Text("Jumlah Top Up"),
                   Text(
-                    "Rp. ${CurrencyFormat.convertToIdr(nominal, 2)}",
+                    "Rp ${CurrencyFormat.convertToIdr(nominal, 2)}",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
                   ),
                 ],
@@ -363,7 +363,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                               ),
                               SizedBox(height: 2),
                               PrimaryTextFieldFormat(
-                                hintText: "Rp.",
+                                hintText: "Rp",
                                 txtInputType: TextInputType.number,
                                 controller: nominalController,
                                 enabled: false,
@@ -409,7 +409,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                                                 "${CurrencyFormat.convertToIdr(100000, 0)}");
                                       });
                                     },
-                                    label: 'Rp. 100.000',
+                                    label: 'Rp 100.000',
                                   ),
                                   NominalContainer(
                                     onTap: () {
@@ -419,7 +419,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                                                 "${CurrencyFormat.convertToIdr(200000, 0)}");
                                       });
                                     },
-                                    label: 'Rp. 200.000',
+                                    label: 'Rp 200.000',
                                   ),
                                 ],
                               ),
@@ -433,7 +433,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                                                 "${CurrencyFormat.convertToIdr(500000, 0)}");
                                       });
                                     },
-                                    label: 'Rp. 500.000',
+                                    label: 'Rp 500.000',
                                   ),
                                   NominalContainer(
                                     onTap: () {
@@ -443,7 +443,7 @@ class _IndexTopUpState extends State<IndexTopUp> {
                                                 "${CurrencyFormat.convertToIdr(1000000, 0)}");
                                       });
                                     },
-                                    label: 'Rp. 1000.000',
+                                    label: 'Rp 1000.000',
                                   ),
                                 ],
                               ),

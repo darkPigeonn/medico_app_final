@@ -226,7 +226,9 @@ class _CreateStep2State extends State<CreateStep3> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        color: Colors.green,
+                        width: MediaQuery.of(context).size.width,
                         height: 50,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,7 +246,7 @@ class _CreateStep2State extends State<CreateStep3> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    'Rp. ' + widget.totalPrices.toString(),
+                                    'Rp ' + widget.totalPrices.toString(),
                                     style: TextStyle(
                                         color: mWhite,
                                         fontSize: 18,
@@ -255,30 +257,37 @@ class _CreateStep2State extends State<CreateStep3> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  print(selectedDate);
-                                  print(selectedWaktu);
-                                  var reservationDate =
+                                  if (selectedDate == null ||
+                                      selectedWaktu == null) {
+                                    messageSnackBarColor(
+                                        context,
+                                        "Tanggal & Jam masih kosong!",
+                                        Colors.red);
+                                  } else {
+                                    var reservationDate =
                                       selectedDate.toString() +
                                           ',' +
                                           selectedWaktu.label.toString();
 
-                                  var objectSave = {
-                                    "subList": widget.subList,
-                                    "subOuletId": widget.subList.id,
-                                    "date": selectedDate,
-                                    "time": selectedWaktu,
-                                    "reservationDate": reservationDate,
-                                    "services": widget.selectedServices,
-                                    "total": widget.totalPrices
-                                  };
 
-                                  Navigator.push(
-                                      context,
-                                      generateSlideTransitionHorizontal(
-                                        CreateStep4(
-                                          dataSave: objectSave,
-                                        ),
-                                      ));
+                                    var objectSave = {
+                                      "subList": widget.subList,
+                                      "subOuletId": widget.subList.id,
+                                      "date": selectedDate,
+                                      "time": selectedWaktu,
+                                      "reservationDate": reservationDate,
+                                      "services": widget.selectedServices,
+                                      "total": widget.totalPrices
+                                    };
+
+                                    Navigator.push(
+                                        context,
+                                        generateSlideTransitionHorizontal(
+                                          CreateStep4(
+                                            dataSave: objectSave,
+                                          ),
+                                        ));
+                                  }
                                   // );
                                 },
                                 child: Text('Selanjutnya'))

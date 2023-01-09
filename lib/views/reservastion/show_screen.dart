@@ -135,7 +135,7 @@ class _ShowReservasiState extends State<ShowReservasi> {
                         child: Text(e.serviceName.toString()),
                       ),
                       Container(
-                        child: Text("Rp. " + e.amount.toString()),
+                        child: Text("Rp " + e.amount.toString()),
                       )
                     ],
                   ),

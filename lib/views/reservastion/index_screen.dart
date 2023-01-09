@@ -90,20 +90,20 @@ class _IndexReservationState extends State<IndexReservation> {
         elevation: 0,
         backgroundColor: mPrimary,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                generateSlideTransition(
-                  IndexLogReservasi(),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.list,
-              color: Colors.black,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       generateSlideTransition(
+          //         IndexLogReservasi(),
+          //       ),
+          //     );
+          //   },
+          //   icon: Icon(
+          //     Icons.list,
+          //     color: Colors.black,
+          //   ),
+          // ),
           IconButton(
             onPressed: () {
               initialData();

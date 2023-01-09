@@ -42,6 +42,7 @@ dependencies:
   google_fonts: ^3.0.1
 
   firebase_storage: ^10.3.9
+  basic_utils: ^5.4.0
 
 dev_dependencies:
   flutter_html: ^2.1.2

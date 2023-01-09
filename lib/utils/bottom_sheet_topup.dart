@@ -29,7 +29,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
             Container(
               margin: EdgeInsets.all(10),
               child: PrimaryTextFieldFormat(
-                hintText: "Rp.",
+                hintText: "Rp",
                 txtInputType: TextInputType.text,
                 controller: widget.controller,
               ),
