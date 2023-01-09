@@ -58,16 +58,16 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       setState(() {
                         isloading = false;
                       });
-                      Navigator.push(
-                        context,
-                        generateSlideTransition(
-                          TopUpScreen(
-                            data: value,
-                            fromDashboard: true,
-                            nominal: nominal,
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   generateSlideTransition(
+                      //     TopUpScreen(
+                      //       data: value,
+                      //       fromDashboard: true,
+                      //       nominal: nominal,
+                      //     ),
+                      //   ),
+                      // );
                     }).catchError((onError) {
                       messageSnackBar(context, onError['msg']);
                       setState(() {

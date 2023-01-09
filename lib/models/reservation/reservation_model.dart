@@ -51,6 +51,9 @@ class ReservationDataModel {
   String? subOutletName;
   int? status;
   String? reservationDate;
+  String? zoomLink;
+  String? zoomMeetingId;
+  String? zoomMeetingPassword;
   List<ServicesReservationModel>? services;
 
   ReservationDataModel(
@@ -60,6 +63,9 @@ class ReservationDataModel {
       this.subOutletName,
       this.status,
       this.reservationDate,
+      this.zoomLink,
+      this.zoomMeetingId,
+      this.zoomMeetingPassword,
       this.services});
 
   ReservationDataModel.fromJson(Map<String, dynamic> json) {
@@ -69,6 +75,9 @@ class ReservationDataModel {
     subOutletName = json['subOutletName'];
     status = json['status'];
     reservationDate = json['reservationDate'];
+    zoomLink = json['zoomLink'];
+    zoomMeetingId = json['zoomMeetingId'];
+    zoomMeetingPassword = json['zoomMeetingPassword'];
     if (json['services'][0]['serviceName'] != '') {
       services = <ServicesReservationModel>[];
       json['services'].forEach((v) {
@@ -85,6 +94,9 @@ class ReservationDataModel {
     data['subOutletName'] = this.subOutletName;
     data['status'] = this.status;
     data['reservationDate'] = this.reservationDate;
+    data['zoomLink'] = this.zoomLink;
+    data['zoomMeetingId'] = this.zoomMeetingId;
+    data['zoomMeetingPassword'] = this.zoomMeetingPassword;
     if (this.services![0].serviceName != '') {
       data['services'] = this.services!.map((e) => e.toJson()).toList();
     }

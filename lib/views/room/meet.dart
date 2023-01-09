@@ -52,10 +52,9 @@ import 'package:flutter_zoom_sdk/zoom_view.dart';
 // }
 
 class Meeting2 extends StatefulWidget {
-  final String? roomId;
-  final String? roomPassword;
+  final Map? signature;
 
-  Meeting2({Key? key, this.roomId, this.roomPassword}) : super(key: key);
+  Meeting2({Key? key, this.signature}) : super(key: key);
 
   @override
   _MeetingState2 createState() => _MeetingState2();
@@ -87,7 +86,6 @@ class _MeetingState2 extends State<Meeting2> {
 
   @override
   Widget build(BuildContext context) {
-    String? urlRoom = widget.roomId;
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -111,8 +109,8 @@ class _MeetingState2 extends State<Meeting2> {
   }
 
   joinMeeting(BuildContext context) {
-    String? roomId = widget.roomId;
-    String? roomPassword = widget.roomPassword;
+    // String? roomId = widget.signature['meetingdId'];
+    // String? roomPassword = widget.roomPassword;
 
     bool _isMeetingEnded(String status) {
       var result = false;
@@ -126,19 +124,21 @@ class _MeetingState2 extends State<Meeting2> {
       return result;
     }
 
-    if (roomId.toString().isNotEmpty && roomPassword.toString().isNotEmpty) {
+    if (widget.signature!['meetingId'].toString().isNotEmpty &&
+        widget.signature!['meetingPassword'].toString().isNotEmpty) {
       ZoomOptions zoomOptions = new ZoomOptions(
-        domain: "zoom.us",
-        appKey: "XKE4uWfeLwWEmh78YMbC6mqKcF8oM4YHTr9I", //API KEY FROM ZOOM
-        appSecret:
-            "bT7N61pQzaLXU6VLj9TVl7eYuLbqAiB0KAdb", //API SECRET FROM ZOOM
-      );
+          domain: "zoom.us", appKey: widget.signature!['signature']
+          // appKey: "XKE4uWfeLwWEmh78YMbC6mqKcF8oM4YHTr9I", //API KEY FROM ZOOM
+          // appSecret:
+          //     "bT7N61pQzaLXU6VLj9TVl7eYuLbqAiB0KAdb", //API SECRET FROM ZOOM
+          );
       var meetingOptions = new ZoomMeetingOptions(
           userId:
               'username', //pass username for join meeting only --- Any name eg:- EVILRATT.
-          meetingId: roomId, //pass meeting id for join meeting only
-          meetingPassword:
-              roomPassword, //pass meeting password for join meeting only
+          meetingId: widget
+              .signature!['meetingId'], //pass meeting id for join meeting only
+          meetingPassword: widget.signature![
+              'meetingPassword'], //pass meeting password for join meeting only
           disableDialIn: "true",
           disableDrive: "true",
           disableInvite: "true",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico_app/providers/reservation/reservationData_provider%20.dart';
+import 'package:medico_app/services/reservation/reservation_service.dart';
 import 'package:medico_app/utils/const_color.dart';
 import 'package:medico_app/utils/message.dart';
 import 'package:medico_app/utils/primary_button.dart';
@@ -85,6 +86,7 @@ class _ShowReservasiState extends State<ShowReservasi> {
   @override
   Widget build(BuildContext context) {
     List<ServicesReservationModel> services = widget.data.services!;
+    print(widget.data);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mPrimary,
@@ -160,11 +162,17 @@ class _ShowReservasiState extends State<ShowReservasi> {
                   child: Text('Batalkan'),
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      var signature = await ReservationService()
+                          .getSignatureZoom(widget.data.id.toString());
+                      print("signature");
+                      print(signature);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Meeting2(),
+                          builder: (context) => Meeting2(
+                            signature: signature,
+                          ),
                         ),
                       );
                     },

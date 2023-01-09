@@ -135,21 +135,20 @@ class _IndexTopUpState extends State<IndexTopUp> {
       setState(() {
         isloading = false;
       });
-      Navigator.pushReplacement(
-          context,
-          generateSlideTransition(
-            TopUpScreen(
-              data: value,
-              fromDashboard: widget.fromDashboard,
-              nominal: nominal,
+      // Navigator.pushReplacement(context,
+      //     // generateSlideTransition(
+      //     //   // TopUpScreen(
+      //     //   //   data: value,
+      //     //   //   fromDashboard: widget.fromDashboard,
+      //     //   //   nominal: nominal,
 
-              //for step 2
-              loket: widget.loket,
-              customerId: widget.customerId,
-              email: widget.email,
-            ),
-          ),
-          result: false);
+      //     //   //   //for step 2
+      //     //   //   loket: widget.loket,
+      //     //   //   customerId: widget.customerId,
+      //     //   //   email: widget.email,
+      //     //   // ),
+      //     // ),
+      //     result: false);
     }).catchError((onError) {
       messageSnackBar(context, onError['msg']);
       setState(() {

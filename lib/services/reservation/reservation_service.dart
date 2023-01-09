@@ -163,6 +163,46 @@ class ReservationService {
     }
   }
 
+  Future<Map> getSignatureZoom(id) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(keyPref);
+
+    try {
+      bool isConnect = await CheckConnectivity.checkConnection();
+      if (!isConnect) {
+        throw ({'msg': 'tdak ada internet'});
+      }
+
+      print("auth service ==> reservation list...");
+      final url = Uri.parse(urlApi + 'users/reservation/$id/zoom-signature');
+
+      final response = await http.get(
+        url,
+        headers: {
+          'id': APP_ID,
+          'secret': APP_SECRET,
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      var dataErr;
+      var data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        return data;
+        // var object = data['reservationList'] as List;
+        // print(object);
+        // return
+      } else {
+        dataErr = {'msg': data['message']};
+        throw (dataErr);
+      }
+    } catch (e) {
+      inspect(e);
+      rethrow;
+    }
+  }
+
   Future<List<ReservationDataModel>> getUserReservation() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(keyPref);
