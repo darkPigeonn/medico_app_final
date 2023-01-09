@@ -71,6 +71,7 @@ class _CreateStep2State extends State<CreateStep2> {
   @override
   Widget build(BuildContext context) {
     services = widget.sublist.services!;
+    print(services);
 
     return Scaffold(
       appBar: AppBar(
@@ -169,7 +170,7 @@ class _CreateStep2State extends State<CreateStep2> {
                                                       Container(
                                                         width: 150,
                                                         child: Text(
-                                                          e.name.toString(),
+                                                          e.nameCap.toString(),
                                                           maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,

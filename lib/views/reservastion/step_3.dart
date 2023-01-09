@@ -321,8 +321,11 @@ class _CreateStep2State extends State<CreateStep3> {
 
   void checkTimeAvailable(DateTime date) async {
     var subOutletId = widget.subList.id;
+    var servicesId = widget.selectedServices[0].id;
+
     await MasterService()
-        .getWaktuTersedia(subOutletId!, "${date.toLocal().toIso8601String()}Z")
+        .getWaktuTersedia(
+            subOutletId!, "${date.toLocal().toIso8601String()}Z", servicesId!)
         .then((value) {
       setState(() {
         hoursAvailable = value;

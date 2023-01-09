@@ -167,6 +167,8 @@ class ReservationService {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(keyPref);
 
+    print('data');
+
     try {
       bool isConnect = await CheckConnectivity.checkConnection();
       if (!isConnect) {

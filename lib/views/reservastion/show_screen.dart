@@ -10,6 +10,7 @@ import 'package:medico_app/models/reservation/reservation_model.dart';
 import 'package:medico_app/providers/reservation/reservation_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:medico_app/views/room/meet.dart';
 
 class ShowReservasi extends StatefulWidget {
   final ReservationDataModel data;
@@ -152,12 +153,22 @@ class _ShowReservasiState extends State<ShowReservasi> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
+                  onPressed: () {
+                    showAlertDialog(context, widget.data.id.toString());
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  child: Text('Batalkan'),
+                ),
+                ElevatedButton(
                     onPressed: () {
-                      showAlertDialog(context, widget.data.id.toString());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Meeting2(),
+                        ),
+                      );
                     },
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    child: Text('Batalkan'))
+                    child: Text('Masuk Ke Ruang Konsultasi'))
               ],
             ),
           ),

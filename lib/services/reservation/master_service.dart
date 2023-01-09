@@ -84,7 +84,7 @@ class MasterService {
   }
 
   Future<List<WaktuTersedia>> getWaktuTersedia(
-      String outlet, String date) async {
+      String outlet, String date, String servicesId) async {
     try {
       bool isConnect = await CheckConnectivity.checkConnection();
 
@@ -95,7 +95,10 @@ class MasterService {
       var dateFormat = DateFormat('dd-MM-yyyy');
       var newDate = dateFormat.format(DateTime.parse(date)).toString();
       final url =
-          Uri.parse(urlApi + 'users/reservation/$outlet/quota/$newDate');
+          // Uri.parse(urlApi + 'users/reservation/$outlet/quota/$newDate');
+          Uri.parse(urlApi +
+              'users/reservation/quota?poli=$outlet&date=$newDate&service=$servicesId');
+      print(url);
       final token = await getToken();
 
       final response = await http.get(

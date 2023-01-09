@@ -40,7 +40,7 @@ class _CreateStep4State extends State<CreateStep4> {
 
   Widget build(BuildContext context) {
     var date = widget.dataSave['date'];
-    var outputFormat = DateFormat('dd-MM-yyyy');
+    var outputFormat = DateFormat('dd MMM yyyy');
     var newDate = outputFormat.format(date);
     return Scaffold(
       appBar: AppBar(
@@ -55,97 +55,143 @@ class _CreateStep4State extends State<CreateStep4> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.all(10),
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                "Detail Reservasi",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 20),
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            "Detail Reservasi",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        DetailCard(
+                            value: subOutlet.parentName.toString(),
+                            label: "Klinik"),
+                        DetailCard(
+                          value: subOutlet.name.toString(),
+                          label: 'Poli',
+                        ),
+                        DetailCard(
+                          value: newDate.toString(),
+                          label: 'Tanggal Reservasi',
+                        ),
+                        DetailCard(value: jam.id.toString(), label: 'Jam'),
+                        Divider(),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            'Layanan',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        ...services.map(
+                          (e) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(e.nameCap.toString()),
+                              ),
+                              Container(
+                                child: Text("Rp. " + e.price.toString()),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          width: MediaQuery.of(context).size.width,
+                          color: mPrimary,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Text(
+                                    'Total',
+                                    style: TextStyle(
+                                        color: mWhite,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.all(10),
+                                  child: Text(
+                                    'Rp. ' +
+                                        widget.dataSave['total'].toString(),
+                                    style: TextStyle(
+                                        color: mWhite,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      DetailCard(
-                          value: subOutlet.parentName.toString(),
-                          label: "Klinik"),
-                      DetailCard(
-                        value: subOutlet.name.toString(),
-                        label: 'Sub-Klinik',
-                      ),
-                      DetailCard(
-                        value: newDate.toString(),
-                        label: 'Tanggal Reservasi',
-                      ),
-                      DetailCard(value: jam.id.toString(), label: 'Jam'),
-                      Divider(),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          'Layanan',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      ...services.map(
-                        (e) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Text(e.name.toString()),
-                            ),
-                            Container(
-                              child: Text("Rp. " + e.price.toString()),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        width: MediaQuery.of(context).size.width,
-                        color: mPrimary,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: mPrimary,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        height: 50,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                                margin: EdgeInsets.all(10),
-                                child: Text(
-                                  'Total',
-                                  style: TextStyle(
-                                      color: mWhite,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                            Container(
-                                margin: EdgeInsets.all(10),
-                                child: Text(
-                                  'Rp. ' + widget.dataSave['total'].toString(),
-                                  style: TextStyle(
-                                      color: mWhite,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'TOTAL : ',
+                                    style: TextStyle(
+                                        color: mWhite,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Rp. ' +
+                                        widget.dataSave['total'].toString(),
+                                    style: TextStyle(
+                                        color: mWhite,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  onSubmit();
+                                },
+                                child: Text('Simpan'))
                           ],
-                        ),
-                      )
-                    ],
+                        )), //last one
                   ),
                 ),
               ),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  onSubmit();
-                },
-                child: Text('Simpan'))
-          ],
+            ],
+          ),
         ),
       ),
     );

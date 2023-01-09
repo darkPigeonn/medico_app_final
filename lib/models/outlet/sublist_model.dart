@@ -69,6 +69,7 @@ class SublistModel {
 class ServiceModel {
   String? id;
   String? name;
+  String? nameCap;
   int? price;
   bool isSelected = false;
 
@@ -83,12 +84,14 @@ class ServiceModel {
   ServiceModel({
     this.id,
     this.name,
+    this.nameCap,
     this.price,
   });
 
   ServiceModel.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     name = json['name'];
+    nameCap = json['nameCap'];
     price = json['price'];
   }
 
@@ -96,6 +99,7 @@ class ServiceModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.id;
     data['name'] = this.name;
+    data['nameCap'] = this.nameCap;
     data['price'] = this.price;
 
     return data;

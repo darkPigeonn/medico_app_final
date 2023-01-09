@@ -45,7 +45,7 @@ class _IndexReservationState extends State<IndexReservation> {
         case '0':
           status = 'Menunggu';
           break;
-        case '1':
+        case '70':
           status = 'Tersejui';
           break;
         default:
@@ -63,7 +63,7 @@ class _IndexReservationState extends State<IndexReservation> {
         isloading = false;
       });
       controller = ScrollController()..addListener(_scrollListener);
-      context.refresh(reservationProvider.notifier).getReservation();
+      context.refresh(reservationDataProvider.notifier).getReservation();
     } else {
       messageSnackBar(context, 'Tidak ada intenet');
     }
@@ -110,7 +110,7 @@ class _IndexReservationState extends State<IndexReservation> {
             },
             icon: Icon(
               Icons.replay_outlined,
-              color: Colors.black,
+              color: Color.fromARGB(255, 255, 255, 255),
             ),
           ),
         ],

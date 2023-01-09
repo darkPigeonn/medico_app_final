@@ -61,10 +61,12 @@ dev_dependencies:
   url_launcher: ^6.1.5
   image_picker: ^0.8.5+3
   permission_handler: ^10.0.1
-  webview_flutter: ^2.0.13
+  # webview_flutter: ^2.0.13
   intl: ^0.17.0
   google_maps_flutter: ^2.2.0
   snippet_coder_utils: ^1.0.12
+  firebase_core_platform_interface: ^4.5.1
+  flutter_zoom_sdk: ^1.1.0+4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
