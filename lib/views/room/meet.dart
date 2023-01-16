@@ -87,7 +87,7 @@ class _MeetingState2 extends State<Meeting2> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
+    print(context);
     return Scaffold(
       body: Center(
         child: Center(
@@ -127,7 +127,9 @@ class _MeetingState2 extends State<Meeting2> {
     if (widget.signature!['meetingId'].toString().isNotEmpty &&
         widget.signature!['meetingPassword'].toString().isNotEmpty) {
       ZoomOptions zoomOptions = new ZoomOptions(
-          domain: "zoom.us", appKey: widget.signature!['signature']
+          domain: "zoom.us",
+          appKey: widget.signature!['signature'],
+          appSecret: widget.signature!['sdkKey']
           // appKey: "XKE4uWfeLwWEmh78YMbC6mqKcF8oM4YHTr9I", //API KEY FROM ZOOM
           // appSecret:
           //     "bT7N61pQzaLXU6VLj9TVl7eYuLbqAiB0KAdb", //API SECRET FROM ZOOM

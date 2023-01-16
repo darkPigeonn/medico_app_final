@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medico_app/models/modelResources.dart';
+import 'package:medico_app/providers/reservation/reservationData_provider%20.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
 import 'package:medico_app/utils/button/button_clay.dart';
 import 'package:medico_app/utils/card/card_landscape.dart';
@@ -16,6 +17,9 @@ import 'package:medico_app/views/reservastion/index_screen.dart';
 import 'package:medico_app/views/resources/listresources.dart';
 import 'package:medico_app/views/user/topup/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import '../reservastion/show_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -62,6 +66,36 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     initialData();
     super.initState();
+  }
+
+  ScrollController controller = ScrollController();
+  formatStatus(String? data) {
+    if (data != null) {
+      print(data.toString());
+      String status = '';
+      switch (data) {
+        case '0':
+          status = 'Menunggu';
+          break;
+        case '70':
+          status = 'Tersejui';
+          break;
+        default:
+          status = 'Ditolak';
+      }
+      return status;
+    }
+  }
+
+  formatDate(String? date) {
+    if (date != null) {
+      initializeDateFormatting();
+      final DateTime newDate = DateTime.parse(date);
+      final DateFormat format = DateFormat('EEEE, d MMMM yyyy', 'id_ID');
+      final String formatted = format.format(newDate);
+
+      return formatted;
+    }
   }
 
   @override
@@ -122,6 +156,7 @@ class _MainScreenState extends State<MainScreen> {
                         SizedBox(
                           height: 20,
                         ),
+
                         Text(
                           'Reservasi',
                           style: titleSectionLanding,
