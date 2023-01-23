@@ -110,7 +110,7 @@ class _MeetingState2 extends State<Meeting2> {
   }
 
   joinMeeting(BuildContext context) {
-    if (meetingIdController.text.isNotEmpty) {
+    if (widget.signature!['meetingId'].toString().isNotEmpty) {
       print('hai');
       bool _isMeetingEnded(String status) {
         var result = false;
@@ -135,7 +135,8 @@ class _MeetingState2 extends State<Meeting2> {
           userId: 'username',
 
           /// pass username for join meeting only --- Any name eg:- EVILRATT.
-          meetingId: meetingIdController.text,
+          meetingId: widget.signature!['meetingId'],
+          meetingPassword: widget.signature!['meetingPassword'],
 
           /// pass meeting password for join meeting only
           disableDialIn: "true",
@@ -167,7 +168,7 @@ class _MeetingState2 extends State<Meeting2> {
         }
       });
     } else {
-      if (meetingIdController.text.isEmpty) {
+      if (widget.signature!['meetingId'].toString().isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Fill Meeting ID!"),
         ));

@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen(),
-      home: Meeting2(),
+      home: SplashScreen(),
+      // home: Meeting2(),
     );
   }
 }

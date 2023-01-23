@@ -161,6 +161,8 @@ class _MainScreenState extends State<MainScreen> {
                           'Reservasi',
                           style: titleSectionLanding,
                         ),
+                        Text('Reservasi Hari Ini'),
+                        ReservationsToday(),
                         SizedBox(
                           height: 10,
                         ),
@@ -351,5 +353,184 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
+  }
+}
+
+class ReservationsToday extends StatelessWidget {
+  const ReservationsToday({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, watch, child) {
+        final reservationData = watch(reservationDataProvider);
+        return reservationData.when(
+            data: (data) {
+              if (data.length == 0) {
+                return Center(
+                  child: Text('Tidak Ada Data'),
+                );
+              }
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                controller: ScrollController(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          generateSlideTransition(
+                            ShowReservasi(data: data[index]),
+                          ));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: mWhite,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: styleBoxShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 100,
+                            color: Colors.amber,
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                formatStatus(data[index].status.toString()),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20, bottom: 10),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          child: Icon(
+                                            Icons.store,
+                                            color: mPrimary,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          data[index]
+                                                  .outletName!
+                                                  .toUpperCase() +
+                                              ' | ' +
+                                              data[index]
+                                                  .subOutletName!
+                                                  .toUpperCase(),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: mBlack,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person,
+                                      color: mPrimary,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      data[index].patientName!.toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: mBlack,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.timer,
+                                      color: mPrimary,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      formatDate(data[index].reservationDate!),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: mBlack,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            loading: () => Center(
+                  child: CircularProgressIndicator(),
+                ),
+            error: (error, st) {
+              return Text('Kosong');
+            });
+      },
+    );
+  }
+
+  formatDate(String? date) {
+    if (date != null) {
+      initializeDateFormatting();
+      final DateTime newDate = DateTime.parse(date);
+      final DateFormat format = DateFormat('EEEE, d MMMM yyyy', 'id_ID');
+      final String formatted = format.format(newDate);
+
+      return formatted;
+    }
+  }
+
+  formatStatus(String? data) {
+    if (data != null) {
+      print(data.toString());
+      String status = '';
+      switch (data) {
+        case '0':
+          status = 'Menunggu';
+          break;
+        case '70':
+          status = 'Tersejui';
+          break;
+        default:
+          status = 'Ditolak';
+      }
+      return status;
+    }
   }
 }
