@@ -10,8 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:soluspopulinew/ui/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_sdk/zoom_options.dart';
-import 'package:flutter_zoom_sdk/zoom_view.dart';
+import 'package:tozoom/tozoom.dart';
+import 'package:tozoom/tozoom_options.dart';
+import 'package:tozoom/tozoom_view.dart';
 
 // class RoomScreen extends StatelessWidget {
 //   String _idPasien;
@@ -109,38 +110,34 @@ class _MeetingState2 extends State<Meeting2> {
   }
 
   joinMeeting(BuildContext context) {
-    // String? roomId = widget.signature['meetingdId'];
-    // String? roomPassword = widget.roomPassword;
+    if (meetingIdController.text.isNotEmpty) {
+      print('hai');
+      bool _isMeetingEnded(String status) {
+        var result = false;
 
-    bool _isMeetingEnded(String status) {
-      var result = false;
+        if (Platform.isAndroid) {
+          result = status == "MEETING_STATUS_DISCONNECTING" ||
+              status == "MEETING_STATUS_FAILED";
+        } else {
+          result = status == "MEETING_STATUS_IDLE";
+        }
 
-      if (Platform.isAndroid)
-        result = status == "MEETING_STATUS_DISCONNECTING" ||
-            status == "MEETING_STATUS_FAILED";
-      else
-        result = status == "MEETING_STATUS_IDLE";
+        return result;
+      }
 
-      return result;
-    }
+      ZoomOptions zoomOptions = ZoomOptions(
+        domain: "zoom.us",
+        appKey: "fUjmn4sIrkO5Xr2fTmI8K4Priyi1TxEd4BlK", //API KEY FROM ZOOM
+        appSecret:
+            "Ty2SXmxJyTJQGdJELUbrzyCuqVEbDH32M55K", //API SECRET FROM ZOOM
+      );
+      var meetingOptions = ZoomMeetingOptions(
+          userId: 'username',
 
-    if (widget.signature!['meetingId'].toString().isNotEmpty &&
-        widget.signature!['meetingPassword'].toString().isNotEmpty) {
-      ZoomOptions zoomOptions = new ZoomOptions(
-          domain: "zoom.us",
-          appKey: widget.signature!['signature'],
-          appSecret: widget.signature!['sdkKey']
-          // appKey: "XKE4uWfeLwWEmh78YMbC6mqKcF8oM4YHTr9I", //API KEY FROM ZOOM
-          // appSecret:
-          //     "bT7N61pQzaLXU6VLj9TVl7eYuLbqAiB0KAdb", //API SECRET FROM ZOOM
-          );
-      var meetingOptions = new ZoomMeetingOptions(
-          userId:
-              'username', //pass username for join meeting only --- Any name eg:- EVILRATT.
-          meetingId: widget
-              .signature!['meetingId'], //pass meeting id for join meeting only
-          meetingPassword: widget.signature![
-              'meetingPassword'], //pass meeting password for join meeting only
+          /// pass username for join meeting only --- Any name eg:- EVILRATT.
+          meetingId: meetingIdController.text,
+
+          /// pass meeting password for join meeting only
           disableDialIn: "true",
           disableDrive: "true",
           disableInvite: "true",
@@ -151,30 +148,30 @@ class _MeetingState2 extends State<Meeting2> {
           noDisconnectAudio: "false");
 
       var zoom = ZoomView();
-      zoom.initZoom(zoomOptions).then((results) {
-        if (results[0] == 0) {
-          zoom.onMeetingStatus().listen((status) {
-            print("[Meeting Status Stream] : " + status[0] + " - " + status[1]);
-            if (_isMeetingEnded(status[0])) {
-              print("[Meeting Status] :- Ended");
-              timer.cancel();
-            }
-          });
-          print("listen on event channel");
+
+      zoom.initZoom(zoomOptions).then((result) {
+        print("result");
+        if (result[0] == 0) {
           zoom.joinMeeting(meetingOptions).then((joinMeetingResult) {
-            timer = Timer.periodic(new Duration(seconds: 2), (timer) {
+            timer = Timer.periodic(const Duration(seconds: 2), (timer) {
               zoom.meetingStatus(meetingOptions.meetingId!).then((status) {
-                print("[Meeting Status Polling] : " +
-                    status[0] +
-                    " - " +
-                    status[1]);
+                if (kDebugMode) {
+                  print("[Meeting Status Polling] : " +
+                      status[0] +
+                      " - " +
+                      status[1]);
+                }
               });
             });
           });
         }
-      }).catchError((error) {
-        print("[Error Generated] : " + error);
       });
+    } else {
+      if (meetingIdController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Fill Meeting ID!"),
+        ));
+      }
     }
   }
 }
