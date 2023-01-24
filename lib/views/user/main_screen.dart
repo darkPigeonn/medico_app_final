@@ -31,6 +31,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   bool isloading = true;
   bool isconnected = true;
+
   showDialogTopUp(int totalSaldo) {
     Navigator.push(
       context,
@@ -124,6 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        _buildTop(),
                         SizedBox(
                           height: 20,
                         ),
@@ -350,6 +352,60 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ))
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTop() {
+    Color _color1 = Color(0xFF005288);
+    Color _color2 = Color(0xFF37474f);
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: Hero(
+              tag: 'profilePicture',
+              child: ClipOval(
+                child: Text('A'),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      'Robert Steven',
+                      style: TextStyle(
+                          color: _color2,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 32),
+            width: 1,
+            height: 40,
+            color: Colors.grey[300],
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: Text('Log Out',
+                style: TextStyle(color: _color2, fontWeight: FontWeight.bold)),
+          )
         ],
       ),
     );
