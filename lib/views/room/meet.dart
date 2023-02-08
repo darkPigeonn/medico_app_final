@@ -5,14 +5,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 // import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 // import 'package:soluspopulinew/ui/homepage.dart';
 import 'package:flutter/material.dart';
-import 'package:tozoom/tozoom.dart';
-import 'package:tozoom/tozoom_options.dart';
-import 'package:tozoom/tozoom_view.dart';
+
+import '../../utils/request_util.dart';
 
 // class RoomScreen extends StatelessWidget {
 //   String _idPasien;
@@ -64,20 +65,15 @@ class Meeting2 extends StatefulWidget {
 class _MeetingState2 extends State<Meeting2> {
   late Timer timer;
 
-  Future<void> _launchBrowser(String url) async {
-    print(url);
-    if (!await launch(url,
-        forceSafariVC: false,
-        forceWebView: false,
-        headers: <String, String>{'header_key': 'header_value'})) {
-      throw 'Could not launch $url';
-    }
-    ;
-  }
-
   @override
   void initState() {
     super.initState();
+    permissionStart();
+  }
+
+  permissionStart() async {
+    await Permission.camera.request();
+    await Permission.microphone.request();
   }
 
   @override
@@ -85,94 +81,40 @@ class _MeetingState2 extends State<Meeting2> {
     super.dispose();
   }
 
+  final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewController? webViewController;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    print(context);
+
     return Scaffold(
-      body: Center(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              joinMeeting(context);
+        body: Column(children: <Widget>[
+      Expanded(
+        child: InAppWebView(
+            key: webViewKey,
+            initialUrlRequest: URLRequest(
+                url: Uri.parse(
+                    urlZoom + '?id=75149303963&pass=sZ1ZST&title=coba')),
+            onWebViewCreated: (controller) {
+              webViewController = controller;
             },
-            child: Text(
-              "Silahkan masuk ruangan",
-              style: TextStyle(color: Colors.white),
-            ),
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateColor.resolveWith((states) => Colors.blue)),
-          ),
-        ),
+            androidOnPermissionRequest: (InAppWebViewController controller,
+                String origin, List<String> resources) async {
+              return PermissionRequestResponse(
+                  resources: resources,
+                  action: PermissionRequestResponseAction.GRANT);
+            }),
       ),
-    );
-  }
-
-  joinMeeting(BuildContext context) {
-    if (widget.signature!['meetingId'].toString().isNotEmpty) {
-      print('hai');
-      bool _isMeetingEnded(String status) {
-        var result = false;
-
-        if (Platform.isAndroid) {
-          result = status == "MEETING_STATUS_DISCONNECTING" ||
-              status == "MEETING_STATUS_FAILED";
-        } else {
-          result = status == "MEETING_STATUS_IDLE";
-        }
-
-        return result;
-      }
-
-      ZoomOptions zoomOptions = ZoomOptions(
-        domain: "zoom.us",
-        appKey: "fUjmn4sIrkO5Xr2fTmI8K4Priyi1TxEd4BlK", //API KEY FROM ZOOM
-        appSecret:
-            "Ty2SXmxJyTJQGdJELUbrzyCuqVEbDH32M55K", //API SECRET FROM ZOOM
-      );
-      var meetingOptions = ZoomMeetingOptions(
-          userId: 'username',
-
-          /// pass username for join meeting only --- Any name eg:- EVILRATT.
-          meetingId: widget.signature!['meetingId'],
-          meetingPassword: widget.signature!['meetingPassword'],
-
-          /// pass meeting password for join meeting only
-          disableDialIn: "true",
-          disableDrive: "true",
-          disableInvite: "true",
-          disableShare: "true",
-          disableTitlebar: "false",
-          viewOptions: "true",
-          noAudio: "false",
-          noDisconnectAudio: "false");
-
-      var zoom = ZoomView();
-
-      zoom.initZoom(zoomOptions).then((result) {
-        print("result");
-        if (result[0] == 0) {
-          zoom.joinMeeting(meetingOptions).then((joinMeetingResult) {
-            timer = Timer.periodic(const Duration(seconds: 2), (timer) {
-              zoom.meetingStatus(meetingOptions.meetingId!).then((status) {
-                if (kDebugMode) {
-                  print("[Meeting Status Polling] : " +
-                      status[0] +
-                      " - " +
-                      status[1]);
-                }
-              });
-            });
-          });
-        }
-      });
-    } else {
-      if (widget.signature!['meetingId'].toString().isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Fill Meeting ID!"),
-        ));
-      }
-    }
+    ]));
   }
 }
+// Join Zoom Meeting
+// https://us04web.zoom.us/j/75149303963?pwd=ej038VwfXYT4W9ckDLpite6g1cOtck.1
+
+// Meeting ID: 751 4930 3963
+// Passcode: sZ1ZST
+
+
+

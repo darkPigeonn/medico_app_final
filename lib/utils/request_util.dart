@@ -8,3 +8,5 @@ const APP_SECRET = "c5a29aac-02a8-4cfb-8a64-7d6ac1f1d3a4";
 final headers = {"Content-type": "application/json"};
 
 const keyPref = 'userPref';
+
+const urlZoom = "https://my.imavi.org/zoomTest/";
