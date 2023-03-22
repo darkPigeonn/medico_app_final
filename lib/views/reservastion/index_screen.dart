@@ -78,19 +78,6 @@ class _IndexReservationState extends State<IndexReservation> {
     // initialData();
   }
 
-  List<String> _selectedAnimals = [];
-
-  List<String> _animals = [
-    'Anjing',
-    'Kucing',
-    'Hamster',
-    'Kelinci',
-    'Ikan',
-    'Burung',
-    'Ular',
-    'Kuda',
-  ];
-
   @override
   void dispose() {
     controller.removeListener(_scrollListener);
@@ -132,268 +119,168 @@ class _IndexReservationState extends State<IndexReservation> {
           ),
         ],
       ),
-      // body: RefreshIndicator(
-      //   onRefresh: () async {
-      //     context.refresh(reservationProvider).getReservation();
-      //   },
-      //   child: isloading == true
-      //       ? Container(
-      //           child: Center(
-      //             child: CircularProgressIndicator(),
-      //           ),
-      //         )
-      //       : Column(
-      //           children: [
-      //             Expanded(
-      //               child: Consumer(
-      //                 builder: (context, watch, child) {
-      //                   final reservationData = watch(reservationDataProvider);
-      //                   return reservationData.when(
-      //                     data: (data) {
-      //                       if (data.length == 0) {
-      //                         return Center(
-      //                           child: Text("Tidak Ada Data"),
-      //                         );
-      //                       }
-      //                       return ListView.builder(
-      //                         controller: controller,
-      //                         itemCount: data.length,
-      //                         itemBuilder: (context, index) {
-      //                           return Column(
-      //                             children: [
-      //                               InkWell(
-      //                                 onTap: () {
-      //                                   Navigator.push(
-      //                                     context,
-      //                                     generateSlideTransition(
-      //                                         ShowReservasi(data: data[index])),
-      //                                   );
-      //                                 },
-      //                                 child: Container(
-      //                                   margin: EdgeInsets.all(10),
-      //                                   decoration: BoxDecoration(
-      //                                     color: mWhite,
-      //                                     borderRadius:
-      //                                         BorderRadius.circular(10),
-      //                                     boxShadow: styleBoxShadow,
-      //                                   ),
-      //                                   child: Column(
-      //                                     crossAxisAlignment:
-      //                                         CrossAxisAlignment.end,
-      //                                     children: [
-      //                                       Container(
-      //                                         width: 100,
-      //                                         color: Colors.amber,
-      //                                         child: Padding(
-      //                                           padding:
-      //                                               const EdgeInsets.all(8.0),
-      //                                           child: Text(
-      //                                             formatStatus(data[index]
-      //                                                 .status
-      //                                                 .toString()),
-      //                                             textAlign: TextAlign.center,
-      //                                           ),
-      //                                         ),
-      //                                       ),
-      //                                       Container(
-      //                                         margin: EdgeInsets.only(
-      //                                             left: 20, bottom: 10),
-      //                                         child: Column(
-      //                                           children: [
-      //                                             SizedBox(height: 10),
-      //                                             Row(
-      //                                               children: [
-      //                                                 Row(
-      //                                                   children: [
-      //                                                     Container(
-      //                                                       child: Icon(
-      //                                                         Icons.store,
-      //                                                         color: mPrimary,
-      //                                                       ),
-      //                                                     ),
-      //                                                     SizedBox(
-      //                                                       width: 10,
-      //                                                     ),
-      //                                                     Text(
-      //                                                       data[index]
-      //                                                               .outletName!
-      //                                                               .toUpperCase() +
-      //                                                           ' | ' +
-      //                                                           data[index]
-      //                                                               .subOutletName!
-      //                                                               .toUpperCase(),
-      //                                                       style: TextStyle(
-      //                                                           fontSize: 16,
-      //                                                           color: mBlack,
-      //                                                           fontWeight:
-      //                                                               FontWeight
-      //                                                                   .bold),
-      //                                                     )
-      //                                                   ],
-      //                                                 ),
-      //                                               ],
-      //                                             ),
-      //                                             SizedBox(
-      //                                               height: 10,
-      //                                             ),
-      //                                             Row(
-      //                                               children: [
-      //                                                 Icon(
-      //                                                   Icons.person,
-      //                                                   color: mPrimary,
-      //                                                 ),
-      //                                                 SizedBox(
-      //                                                   width: 10,
-      //                                                 ),
-      //                                                 Text(
-      //                                                   data[index]
-      //                                                       .patientName!
-      //                                                       .toUpperCase(),
-      //                                                   style: TextStyle(
-      //                                                       fontSize: 16,
-      //                                                       color: mBlack,
-      //                                                       fontWeight:
-      //                                                           FontWeight
-      //                                                               .bold),
-      //                                                 )
-      //                                               ],
-      //                                             ),
-      //                                             SizedBox(
-      //                                               height: 10,
-      //                                             ),
-      //                                             Row(
-      //                                               children: [
-      //                                                 Icon(
-      //                                                   Icons.timer,
-      //                                                   color: mPrimary,
-      //                                                 ),
-      //                                                 SizedBox(
-      //                                                   width: 10,
-      //                                                 ),
-      //                                                 Text(
-      //                                                   formatDate(data[index]
-      //                                                       .reservationDate!),
-      //                                                   style: TextStyle(
-      //                                                       fontSize: 14,
-      //                                                       color: mBlack,
-      //                                                       fontWeight:
-      //                                                           FontWeight
-      //                                                               .bold),
-      //                                                 )
-      //                                               ],
-      //                                             ),
-      //                                           ],
-      //                                         ),
-      //                                       ),
-      //                                     ],
-      //                                   ),
-      //                                 ),
-      //                               ),
-      //                             ],
-      //                           );
-      //                         },
-      //                       );
-      //                     },
-      //                     loading: () => Center(
-      //                       child: CircularProgressIndicator(),
-      //                     ),
-      //                     error: (error, st) {
-      //                       final er = error as Map<String, dynamic>;
-      //                       return ListView(
-      //                         children: [
-      //                           Center(
-      //                             child: Text(er['msg']),
-      //                           )
-      //                         ],
-      //                       );
-      //                     },
-      //                   );
-      //                 },
-      //               ),
-      //             ),
-      //             ProviderListener<StateController<bool>>(
-      //               onChange: (context, loading) async {
-      //                 if (loading.state) {
-      //                   await LoadingWidget.showDialogLoading(context);
-      //                 } else {
-      //                   Navigator.pop(context);
-      //                   controller.animateTo(
-      //                     controller.position.maxScrollExtent,
-      //                     duration: Duration(seconds: 1),
-      //                     curve: Curves.fastOutSlowIn,
-      //                   );
-      //                 }
-      //               },
-      //               provider: globalLoading,
-      //               child: Container(),
-      //             ),
-      //           ],
-      //         ),
-      // ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Buat Reservasi',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Silahkan Pilih Hewan Kesayangan Anda',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _animals.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Text(_animals[index]),
-                    value: _selectedAnimals.contains(_animals[index]),
-                    onChanged: (value) {
-                      if (value!) {
-                        setState(() {
-                          _selectedAnimals.add(_animals[index]);
-                        });
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.refresh(reservationProvider).getReservation();
+        },
+        child: isloading == true
+            ? Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Column(
+                children: [
+                  Expanded(
+                    child: Consumer(
+                      builder: (context, watch, child) {
+                        final reservationData = watch(reservationDataProvider);
+                        return reservationData.when(
+                          data: (data) {
+                            if (data.length == 0) {
+                              return Center(
+                                child: Text("Tidak Ada Data"),
+                              );
+                            }
+                            return ListView.builder(
+                              controller: controller,
+                              itemCount: data.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          generateSlideTransition(
+                                              ShowReservasi(data: data[index])),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: mWhite,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: styleBoxShadow,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              width: 100,
+                                              color: Colors.amber,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  formatStatus(data[index]
+                                                      .status
+                                                      .toString()),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 20, bottom: 10),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.timer,
+                                                        color: mPrimary,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        formatDate(data[index]
+                                                            .reservationDate!),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: mBlack,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.pets,
+                                                        color: mPrimary,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        data[index]
+                                                            .patientName!
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: mBlack,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          loading: () => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          error: (error, st) {
+                            final er = error as Map<String, dynamic>;
+                            return ListView(
+                              children: [
+                                Center(
+                                  child: Text(er['msg']),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  ProviderListener<StateController<bool>>(
+                    onChange: (context, loading) async {
+                      if (loading.state) {
+                        await LoadingWidget.showDialogLoading(context);
                       } else {
-                        setState(() {
-                          _selectedAnimals.remove(_animals[index]);
-                        });
+                        Navigator.pop(context);
+                        controller.animateTo(
+                          controller.position.maxScrollExtent,
+                          duration: Duration(seconds: 1),
+                          curve: Curves.fastOutSlowIn,
+                        );
                       }
                     },
-                  );
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-      bottomSheet: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                child: Text('Kembali'),
-                onPressed: () {},
+                    provider: globalLoading,
+                    child: Container(),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                child: Text('Selanjutnya'),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (contex) => Reservations_2()));
-                },
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

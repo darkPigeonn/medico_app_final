@@ -277,3 +277,63 @@ class DetailCard extends StatelessWidget {
     );
   }
 }
+
+class DetailPetCard extends StatelessWidget {
+  const DetailPetCard(
+      {Key? key,
+      required this.imageUrl,
+      required this.species,
+      required this.name})
+      : super(key: key);
+
+  final String imageUrl;
+  final String name;
+  final String species;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 25.0,
+            backgroundColor: mPrimary,
+            child: Text(
+              imageUrl,
+              style: TextStyle(
+                color: mFillColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Container(
+            child: Text(
+              name,
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Container(
+            child: Text(
+              ' - ',
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Container(
+            width: 130,
+            child: Text(
+              species,
+              style: TextStyle(fontSize: 16),
+              overflow: TextOverflow.clip,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

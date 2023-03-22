@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medico_app/views/reservastion/reservations_3.dart';
 
+import '../../utils/helpers.dart';
+
 class Reservations_2 extends StatefulWidget {
   const Reservations_2({super.key});
 
@@ -206,15 +208,15 @@ class _ReservationsState_2 extends State<Reservations_2> {
                 children: [
                   Text(
                     'TOTAL',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     ' : ',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '$total',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    'Rp. ' + CurrencyFormat.convertToIdr(total, 2).toString(),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

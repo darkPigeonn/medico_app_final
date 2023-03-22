@@ -54,3 +54,19 @@ Color getColorMembership(String membership) {
 
   return Color(0xFF07AEE2);
 }
+
+getGreeting() {
+  DateTime now = DateTime.now();
+  var hour = now.hour;
+  String sapaan = '-';
+  if (hour > 00 && hour < 12) {
+    sapaan = 'Pagi';
+  } else if (hour >= 12 && hour <= 16) {
+    sapaan = 'Siang';
+  } else if (hour > 16 && hour <= 18) {
+    sapaan = 'Sore';
+  } else {
+    sapaan = 'Malam';
+  }
+  return sapaan;
+}

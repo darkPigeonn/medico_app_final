@@ -89,94 +89,135 @@ class _ShowReservasiState extends State<ShowReservasi> {
     print(widget.data);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mPrimary,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            margin: EdgeInsets.only(top: 20),
-            width: 305,
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: mWhite,
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
-              boxShadow: styleBoxShadow,
-            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DetailCard(value: widget.data.outletName!, label: 'Klinik'),
-                DetailCard(
-                    value: widget.data.subOutletName!, label: 'Sub-Klinik'),
-                DetailCard(value: widget.data.patientName!, label: 'Pasien'),
-                DetailCard(value: widget.data.patientName!, label: 'Pasien'),
-                Container(
-                  child: DetailCard(
-                      value: formatDate(widget.data.reservationDate),
-                      label: 'Tanggal'),
+                Text(
+                  'Detail Reservasi',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 40, left: 40),
-                  child: Divider(
-                    color: mBlack,
+                SizedBox(
+                  height: 20,
+                ),
+                DetailPetCard(
+                  species: 'Anjing',
+                  name: 'MacDonald',
+                  imageUrl: '',
+                ),
+                DetailPetCard(
+                  species: 'Anjing',
+                  name: 'MacDonald',
+                  imageUrl: '',
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Card(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        ...services.map(
+                          (e) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Groming',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                formatDate(widget.data.reservationDate),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                '08.00',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 10, left: 10),
+                                child: Divider(
+                                  color: mBlack,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                SizedBox(height: 20),
                 Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text('Catatan : '),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
                   child: Text(
-                    'Layanan',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                      'adsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdfadsfasdfasdfasdf'),
                 ),
-                ...services.map(
-                  (e) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: mWhite,
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        child: Text(e.serviceName.toString()),
+                      Text(
+                        'TOTAL',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Container(
-                        child: Text("Rp " + e.amount.toString()),
-                      )
+                      Text(
+                        'Rp 50.000',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [],
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 30,
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    showAlertDialog(context, widget.data.id.toString());
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: Text('Batalkan'),
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      var signature = await ReservationService()
-                          .getSignatureZoom(widget.data.id.toString());
-                      print("signature");
-                      print(signature);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Meeting2(
-                            signature: signature,
-                          ),
-                        ),
-                      );
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showAlertDialog(context, widget.data.id.toString());
                     },
-                    child: Text('Masuk Ke Ruang Konsultasi'))
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    child: Text('Batalkan'),
+                  ),
+                ),
               ],
             ),
           ),

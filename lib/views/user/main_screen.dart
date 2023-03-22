@@ -1,9 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:medico_app/utils/helpers.dart';
+import 'package:medico_app/views/pets/list_pet.dart';
+import 'package:medico_app/views/reservastion/create_screen.dart';
 
+import '../../models/modelResources.dart';
+import '../../models/user/user_model.dart';
+import '../../providers/user/user_provider.dart';
+import '../../utils/card/card_landscape.dart';
+import '../../utils/message.dart';
+import '../component/header.dart';
 import '../notifikasi/notifikasi.dart';
 import '../pets/create_pet.dart';
 import '../reservastion/index_screen.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,6 +24,29 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  UserModel? user = UserModel();
+  Future<void> getDataProfile() async {
+    bool isconnected = await CheckConnectivity.checkConnection();
+
+    if (isconnected) {
+      context.read(userProvider.notifier).getDataProfile().then((value) {
+        setState(() {
+          user = value;
+        });
+      }).catchError((onError) {
+        messageSnackBar(context, onError['msg']);
+      });
+    } else {
+      messageSnackBar(context, 'Tidak ada intenet');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -33,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _HeaderSection(),
+                    HeaderSection(user: user!),
                     SizedBox(
                       height: 40,
                     ),
@@ -80,68 +114,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class _HeaderSection extends StatelessWidget {
-  const _HeaderSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CircleAvatar(
-                  radius: 25.0,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Selamat Pagi !',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Noel',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Container(
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotifikasiPage()));
-                },
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                ),
-              ),
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
-
 class _PetSection extends StatelessWidget {
   const _PetSection({super.key});
 
@@ -157,6 +129,7 @@ class _PetSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
@@ -175,6 +148,25 @@ class _PetSection extends StatelessWidget {
                 shape: CircleBorder(),
               ),
               Text('Tambah Pet')
+            ],
+          ),
+          Column(
+            children: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ListPet()));
+                },
+                color: Color.fromARGB(255, 255, 255, 255),
+                textColor: Color.fromARGB(255, 0, 13, 194),
+                child: Icon(
+                  Icons.more_horiz,
+                  size: 20,
+                ),
+                padding: EdgeInsets.all(10),
+                shape: CircleBorder(),
+              ),
+              Text('Lebih Banyak')
             ],
           ),
         ],
@@ -199,7 +191,12 @@ class _MenuSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IndexReservation()));
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -232,7 +229,7 @@ class _MenuSection extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndexReservation(),
+                          builder: (context) => CreateReservation(),
                         ),
                       );
                     },
@@ -308,40 +305,31 @@ class _BlogSection extends StatelessWidget {
   Widget build(BuildContext context) {
     CarouselController buttonCarouselController = CarouselController();
     List<int> list = [1, 2, 3, 4, 5];
+    final ModelResources1 modelResources1 = ModelResources1(
+        title: 'title',
+        content: 'content',
+        excerpt: 'excerpt',
+        publishDate: 'publishDate',
+        author: 'author',
+        slug: 'slug',
+        imageLink: 'imageLink');
+
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      height: 200,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 1,
-            offset: Offset(0, 1),
-          )
-        ],
-      ),
-      child: CarouselSlider(
-        items: list
-            .map((item) => Container(
-                  child: Center(child: Text(item.toString())),
-                  color: Color.fromARGB(255, 0, 119, 255),
-                ))
-            .toList(),
-        carouselController: buttonCarouselController,
-        options: CarouselOptions(
-          autoPlay: false,
-          enlargeCenterPage: true,
-          viewportFraction: 0.9,
-          aspectRatio: 2.0,
-          initialPage: 2,
+        child: Column(
+      children: [
+        CardLandscape(
+          modelResources1: modelResources1,
         ),
-      ),
-    );
+        CardLandscape(
+          modelResources1: modelResources1,
+        ),
+        CardLandscape(
+          modelResources1: modelResources1,
+        ),
+        CardLandscape(
+          modelResources1: modelResources1,
+        ),
+      ],
+    ));
   }
 }

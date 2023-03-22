@@ -32,8 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isloading = false;
 
   doLogin() async {
-    Navigator.pushReplacement(
-        context, generateSlideTransition(DashBoardScreen()));
     setState(() {
       isloading = true;
     });
@@ -203,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         vertical: 16.0),
                                     child: TextFormField(
                                       textInputAction: TextInputAction.done,
-                                      obscureText: true,
+                                      obscureText: false,
                                       cursorColor: mPrimary,
                                       controller: passwordController,
                                       decoration: const InputDecoration(

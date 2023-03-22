@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medico_app/views/reservastion/reservations_4.dart';
+
+import '../../utils/transition.dart';
 
 class Reservations_3 extends StatefulWidget {
   const Reservations_3({super.key});
@@ -12,19 +15,9 @@ class _ReservationsState_3 extends State<Reservations_3> {
 
   String _selectedServices = '';
 
-  List<String> _animals = [
-    'Anjing',
-    'Kucing',
-    'Hamster',
-    'Kelinci',
-    'Ikan',
-    'Burung',
-    'Ular',
-    'Kuda',
-  ];
-
-  var qtyTotal = 0;
-  var total = 0;
+  DateTime? selectedDate;
+  DateTime beforeNow = DateTime.now();
+  DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -47,144 +40,55 @@ class _ReservationsState_3 extends State<Reservations_3> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                'Silahkan Pilih Tanggal',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text(
+                  'Silahkan Pilih Tanggal',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
                 height: 20,
               ),
-              // DropdownButtonFormField<String>(
-              //   value: _selectedServices,
-              //   onChanged: (value) {
-              //     setState(() {
-              //       _selectedServices = value!;
-              //     });
-              //   },
-              //   items: _listServices.map((services) {
-              //     return DropdownMenuItem<String>(
-              //       value: services,
-              //       child: Text(services.toString()),
-              //     );
-              //   }).toList(),
-              //   decoration: InputDecoration(
-              //     hintText: 'Silahkan Pilih Layanan',
-              //     border: OutlineInputBorder(
-              //       borderSide: const BorderSide(
-              //           color: Color.fromARGB(255, 183, 183, 183)),
-              //       borderRadius: BorderRadius.circular(15),
-              //     ),
-              //   ),
-              // ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          // "${value.name}",
-                          "Groming",
-                          // style: mStyleTitleWhite,
-                        ),
-                        Text(
-                          // "${CurrencyFormat.convertToIdr(value.price, 2)}",
-                          "Rp. 50.0000",
-                          // style: mStyleTitleWhite,
-                        )
-                      ],
-                    ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final DateTime? selected = await showDatePicker(
+                      context: context,
+                      initialDate: beforeNow,
+                      firstDate: beforeNow,
+                      lastDate: DateTime(beforeNow.year + 5),
+                    );
+                    if (selected != null && selected != selectedDate) {
+                      // checkTimeAvailable(selected);
+                      setState(() {
+                        selectedDate = selected;
+                      });
+                    }
+                  },
+                  child: Text(
+                    selectedDate == null
+                        ? "-Pilih Tanggal-"
+                        : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                    style: TextStyle(color: Colors.black),
                   ),
-                  Expanded(
-                    flex: 1,
-                    // child: value.qtyTotal > 0
-                    child: qtyTotal > 0
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.white),
-                                  ),
-                                  child: Icon(Icons.remove),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    qtyTotal -= 1;
-                                    total -= 50000;
-                                    // value.removeQty(1);
-                                    // renderTotalPrice();
-                                    // if (value.qtyTotal == 0) {
-                                    //   selectedLayanan.removeWhere(
-                                    //       (element) =>
-                                    //           element.sId == value.sId);
-                                    // }
-                                  });
-                                },
-                              ),
-                              Text(
-                                // '${value.qtyTotal}',
-                                '$qtyTotal',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                              InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Colors.white),
-                                  ),
-                                  child: Icon(Icons.add),
-                                ),
-                                onTap: () {
-                                  setState(() {
-                                    qtyTotal += 1;
-                                    total += 50000;
-                                    // value.addQty(1);
-                                    // renderTotalPrice();
-
-                                    // if (totalPrice > saldo) {
-                                    //   mustTopup = true;
-                                    // }
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF1FE000),
-                                padding: EdgeInsets.all(10)),
-                            child: Text(
-                              "Tambah",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                qtyTotal += 1;
-                                total = 50000;
-
-                                // selectedLayanan.add(value);
-                                // value.addQty(1);
-                                // renderTotalPrice();
-                                // if (totalPrice > saldo) {
-                                //   mustTopup = true;
-                                // }
-                              });
-                            },
-                          ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white, // background
+                    onPrimary: Colors.black, // foreground
                   ),
-                ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Text(
+                  'Silahkan Pilih Jam Operasional',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
                 height: 4,
@@ -211,15 +115,21 @@ class _ReservationsState_3 extends State<Reservations_3> {
                     ' : ',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    '$total',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  // Text(
+                  //   '$total',
+                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ),
                 ],
               ),
               ElevatedButton(
                 child: Text('Selanjutnya'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      generateSlideTransitionHorizontal(
+                        Reservations_4(),
+                      ));
+                },
               ),
             ],
           ),
