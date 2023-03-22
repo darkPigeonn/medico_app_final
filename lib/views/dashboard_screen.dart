@@ -29,14 +29,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     switch (page) {
       case 0:
         return MainScreen();
-
       case 1:
-        return HistoryMedic();
-
-      // case 2:
-      //   return CreateReservation();
-
-      case 2:
         return ProfileScreen();
 
       default:
@@ -63,9 +56,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         length: 4,
         child: Scaffold(
           bottomNavigationBar: Container(
-            height: 69,
             decoration: BoxDecoration(
-              color: mPrimary,
+              color: Colors.white,
               boxShadow: [
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.4),
@@ -75,16 +67,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               ],
             ),
             child: BottomNavigationBar(
-              unselectedItemColor: Colors.white70,
-              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.black,
+              selectedItemColor: Colors.black,
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: "Beranda",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.list_alt),
-                  label: "Data Vital",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),

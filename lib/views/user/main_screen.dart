@@ -1,597 +1,347 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:medico_app/models/modelResources.dart';
-import 'package:medico_app/providers/reservation/reservationData_provider%20.dart';
-import 'package:medico_app/providers/user/user_provider.dart';
-import 'package:medico_app/utils/button/button_clay.dart';
-import 'package:medico_app/utils/card/card_landscape.dart';
-import 'package:medico_app/utils/card/coraulse_card.dart';
-import 'package:medico_app/utils/const_color.dart';
-import 'package:medico_app/utils/helpers.dart';
-import 'package:medico_app/utils/message.dart';
-import 'package:medico_app/utils/text_style.dart';
-import 'package:medico_app/utils/transition.dart';
-import 'package:medico_app/views/log/notifikasi_log_screen.dart';
-import 'package:medico_app/views/log/saldo_log_screen.dart';
-import 'package:medico_app/views/reservastion/create_screen.dart';
-import 'package:medico_app/views/reservastion/index_screen.dart';
-import 'package:medico_app/views/resources/listresources.dart';
-import 'package:medico_app/views/user/topup/index.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import '../component/topbar.dart';
-import '../reservastion/show_screen.dart';
-import 'package:intl/date_symbol_data_local.dart';
+
+import '../notifikasi/notifikasi.dart';
+import '../pets/create_pet.dart';
+import '../reservastion/index_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool isloading = true;
-  bool isconnected = true;
-
-  showDialogTopUp(int totalSaldo) {
-    Navigator.push(
-      context,
-      generateSlideTransition(
-        IndexTopUp(
-          fromDashboard: true,
-          tagihanSaatIni: 0,
-        ),
-      ),
-    );
-  }
-
-  initialData() async {
-    isconnected = await CheckConnectivity.checkConnection();
-
-    if (isconnected) {
-      context.refresh(userProviderData).catchError((onError) {
-        setState(() {
-          isloading = false;
-        });
-        messageSnackBar(context, 'Tidak ada intenet ni');
-      });
-
-      setState(() {
-        isloading = false;
-      });
-    } else {
-      messageSnackBar(context, 'Tidak ada intenet');
-    }
-  }
-
-  @override
-  void initState() {
-    initialData();
-    super.initState();
-  }
-
-  ScrollController controller = ScrollController();
-  formatStatus(String? data) {
-    if (data != null) {
-      print(data.toString());
-      String status = '';
-      switch (data) {
-        case '0':
-          status = 'Menunggu';
-          break;
-        case '70':
-          status = 'Tersejui';
-          break;
-        default:
-          status = 'Ditolak';
-      }
-      return status;
-    }
-  }
-
-  formatDate(String? date) {
-    if (date != null) {
-      initializeDateFormatting();
-      final DateTime newDate = DateTime.parse(date);
-      final DateFormat format = DateFormat('EEEE, d MMMM yyyy', 'id_ID');
-      final String formatted = format.format(newDate);
-
-      return formatted;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final ModelResources1 modelResources1 = ModelResources1(
-        title: 'title',
-        content: 'content',
-        excerpt: 'excerpt',
-        publishDate: 'publishDate',
-        author: 'author',
-        slug: 'slug',
-        imageLink: 'imageLink');
     return Scaffold(
-      // appBar: TopNavBar(),
-      // bottomNavigationBar: BottomNavbar(),
-      body: Container(
+      backgroundColor: Colors.blue,
+      body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
-            SafeArea(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TopBar(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Artikel Kesehatan',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CorauselCard(title: 'title'),
-
-                          // ClayCard(baseColor: Colors.purple),
-                          Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(right: 10),
-                            child: InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ListResources(
-                                            type: 'Artikel',
-                                          ))),
-                              child: Text(
-                                'Lihat lebih banyak',
-                                style: TextStyle(color: mPrimary),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          Text(
-                            'Reservasi',
-                            style: titleSectionLanding,
-                          ),
-                          Text(
-                            'Reservasi Hari Ini',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          ReservationsToday(),
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          Row(
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.aod_rounded,
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      IndexReservation()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Daftar Reservasi',
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 90,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.assignment_rounded,
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CreateReservation()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Buat Reservasi',
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            'Tentang Kami',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          Row(
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.person,
-                                        onPressed: () {
-                                          print(';');
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Dokter')
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon:
-                                            Icons.health_and_safety_rounded,
-                                        onPressed: () {
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryMedic()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Layanan')
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.import_contacts_sharp,
-                                        onPressed: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             HistoryMedic()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Riwayat')
-                                  ],
-                                ),
-                              ),
-                              // Column(
-                              //   children: [
-                              //     button_clay(baseColor: Color.fromARGB(255, 255, 255, 255)),
-                              //      SizedBox(height: 5,),
-                              //     Text('Dokter')
-                              //   ],
-                              // ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            'Berita',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(right: 10),
-                            child: InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ListResources(
-                                            type: 'Artikel',
-                                          ))),
-                              child: Text(
-                                'Lihat lebih banyak',
-                                style: TextStyle(color: mPrimary),
-                              ),
-                            ),
-                          ),
-                          // button_clay(baseColor: baseColor, size: size),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
+            Container(
+              color: Colors.white,
+              height: double.infinity,
+              margin: EdgeInsets.only(top: size.height * 0.35),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HeaderSection(),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      'Rawat hewan kesayanganmu',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _PetSection(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _MenuSection(),
+                    // SizedBox(
+                    //   height: 30,
+                    // ),
+                    // _AnnouncementSection(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      'Baca Artikel Terkini',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _BlogSection()
+                  ],
+                ),
               ),
-            ))
+            )
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildTop() {
-    Color _color1 = Color(0xFF005288);
-    Color _color2 = Color(0xFF37474f);
+class _HeaderSection extends StatelessWidget {
+  const _HeaderSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CircleAvatar(
+                  radius: 25.0,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Selamat Pagi !',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Noel',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Container(
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotifikasiPage()));
+                },
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class _PetSection extends StatelessWidget {
+  const _PetSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () {},
-            child: Hero(
-              tag: 'profilePicture',
-              child: ClipOval(
-                child: Text('A'),
+          Column(
+            children: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CreatePet()));
+                },
+                color: Color.fromARGB(255, 255, 255, 255),
+                textColor: Color.fromARGB(255, 0, 13, 194),
+                child: Icon(
+                  Icons.add,
+                  size: 20,
+                ),
+                padding: EdgeInsets.all(10),
+                shape: CircleBorder(),
               ),
-            ),
+              Text('Tambah Pet')
+            ],
           ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Robert Steven',
-                      style: TextStyle(
-                          color: _color2,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 32),
-            width: 1,
-            height: 40,
-            color: Colors.grey[300],
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: Text('Log Out',
-                style: TextStyle(color: _color2, fontWeight: FontWeight.bold)),
-          )
         ],
       ),
     );
   }
 }
 
-class ReservationsToday extends StatelessWidget {
-  const ReservationsToday({
-    super.key,
-  });
+class _MenuSection extends StatelessWidget {
+  const _MenuSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, watch, child) {
-        final reservationData = watch(reservationDataProvider);
-        return reservationData.when(
-            data: (data) {
-              if (data.length == 0) {
-                return Text('Tidak Ada Data');
-              }
-              return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                controller: ScrollController(),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          generateSlideTransition(
-                            ShowReservasi(data: data[index]),
-                          ));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: mWhite,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: styleBoxShadow,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 100,
-                            color: Colors.amber,
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                formatStatus(data[index].status.toString()),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 20, bottom: 10),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          child: Icon(
-                                            Icons.store,
-                                            color: mPrimary,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          data[index]
-                                                  .outletName!
-                                                  .toUpperCase() +
-                                              ' | ' +
-                                              data[index]
-                                                  .subOutletName!
-                                                  .toUpperCase(),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: mBlack,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.person,
-                                      color: mPrimary,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      data[index].patientName!.toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: mBlack,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.timer,
-                                      color: mPrimary,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      formatDate(data[index].reservationDate!),
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: mBlack,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    textColor: Color.fromARGB(255, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.task,
+                          size: 55,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Daftar Reservasi')
+                      ],
                     ),
-                  );
-                },
-              );
-            },
-            loading: () => Center(
-                  child: CircularProgressIndicator(),
-                ),
-            error: (error, st) {
-              return Center(child: Text('Kosong'));
-            });
-      },
+                    padding: EdgeInsets.all(10),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => IndexReservation(),
+                        ),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    textColor: Color.fromARGB(255, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.add_task,
+                          size: 55,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Buat Reservasi')
+                      ],
+                    ),
+                    padding: EdgeInsets.all(10),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
+}
 
-  formatDate(String? date) {
-    if (date != null) {
-      initializeDateFormatting();
-      final DateTime newDate = DateTime.parse(date);
-      final DateFormat format = DateFormat('EEEE, d MMMM yyyy', 'id_ID');
-      final String formatted = format.format(newDate);
+class _AnnouncementSection extends StatelessWidget {
+  const _AnnouncementSection({super.key});
 
-      return formatted;
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(
+                'Pengumuman',
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
+}
 
-  formatStatus(String? data) {
-    if (data != null) {
-      print(data.toString());
-      String status = '';
-      switch (data) {
-        case '0':
-          status = 'Menunggu';
-          break;
-        case '70':
-          status = 'Tersejui';
-          break;
-        default:
-          status = 'Ditolak';
-      }
-      return status;
-    }
+class _BlogSection extends StatelessWidget {
+  const _BlogSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    CarouselController buttonCarouselController = CarouselController();
+    List<int> list = [1, 2, 3, 4, 5];
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      height: 200,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          )
+        ],
+      ),
+      child: CarouselSlider(
+        items: list
+            .map((item) => Container(
+                  child: Center(child: Text(item.toString())),
+                  color: Color.fromARGB(255, 0, 119, 255),
+                ))
+            .toList(),
+        carouselController: buttonCarouselController,
+        options: CarouselOptions(
+          autoPlay: false,
+          enlargeCenterPage: true,
+          viewportFraction: 0.9,
+          aspectRatio: 2.0,
+          initialPage: 2,
+        ),
+      ),
+    );
   }
 }

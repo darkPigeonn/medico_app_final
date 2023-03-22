@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.9
   flutter_inappwebview: ^5.7.2+3
   permission_handler: ^10.2.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   # flutter_html: ^2.1.2

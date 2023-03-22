@@ -32,6 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isloading = false;
 
   doLogin() async {
+    Navigator.pushReplacement(
+        context, generateSlideTransition(DashBoardScreen()));
     setState(() {
       isloading = true;
     });
@@ -157,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Column(
                         children: [
                           const Text(
-                            "MEDICO",
+                            "MEDIVET",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
