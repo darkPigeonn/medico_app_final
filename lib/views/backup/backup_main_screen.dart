@@ -111,18 +111,18 @@ class _BackupMainScreenState extends State<BackupMainScreen> {
                                   ),
                                 ],
                               ),
-                              Column(
-                                children: [
-                                  isloading == true
-                                      ? CircularProgressIndicator()
-                                      : Text(
-                                          "${CurrencyFormat.convertToIdr(dataUser.creditBalance, 2)}",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                ],
-                              ),
+                              // Column(
+                              //   children: [
+                              //     isloading == true
+                              //         ? CircularProgressIndicator()
+                              //         : Text(
+                              //             "${CurrencyFormat.convertToIdr(dataUser.creditBalance, 2)}",
+                              //             style: TextStyle(
+                              //                 fontSize: 18,
+                              //                 fontWeight: FontWeight.bold),
+                              //           ),
+                              //   ],
+                              // ),
                               Row(
                                 children: [Text("Tap to history")],
                               ),
@@ -135,7 +135,7 @@ class _BackupMainScreenState extends State<BackupMainScreen> {
                       flex: 2,
                       child: InkWell(
                         onTap: () {
-                          showDialogTopUp(dataUser.creditBalance!);
+                          // showDialogTopUp(dataUser.creditBalance!);
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),

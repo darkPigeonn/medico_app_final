@@ -53,7 +53,7 @@ class _CreateReservationState extends State<CreateReservation> {
 
     if (isconnected) {
       await context.read(userProvider.notifier).getDataProfile().then((value) {
-        customerId = value.id!;
+        // customerId = value.id!;
         // saldo = value.creditBalance!;
         email = value.email!;
       }).catchError((onError) {

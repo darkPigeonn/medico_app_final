@@ -1,41 +1,24 @@
 class PatientModel {
   String? id;
-  String? name;
+  String? petName;
   String? dob;
-  String? phoneNumber;
-  String? address;
+  int? sex;
 
-  PatientModel({this.id, this.name, this.dob, this.phoneNumber, this.address});
+  PatientModel({this.id, this.petName, this.dob, this.sex});
 
   PatientModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    petName = json['petName'];
     dob = json['dob'];
-    phoneNumber = json['phoneNumber'];
-    address = json['address'];
-    // creditBalance = json['credit_balance'];
-    // realMembership = json['real_membership'];
-    // if (json['vehicles'][0]['id'] != '') {
-    //   vehicles = <Vehicles>[];
-    //   json['vehicles'].forEach((v) {
-    //     vehicles!.add(new Vehicles.fromJson(v));
-    //   });
-    // } else {
-    //   vehicles = [];
-    // }
-    // mitra = json['mitra'];
-    // preferensi = json['preferensi'] != null
-    //     ? new Preferensi.fromJson(json['preferensi'])
-    //     : null;
+    sex = json['sex'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
+    data['petName'] = this.petName;
     data['dob'] = this.dob;
-    data['phoneNumber'] = this.phoneNumber;
-    data['address'] = this.address;
+    data['sex'] = this.sex;
 
     return data;
   }

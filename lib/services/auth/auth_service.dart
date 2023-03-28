@@ -49,6 +49,7 @@ class AuthService {
         // 'device_id': deviceId
       };
 
+      print(dataBody);
       final response = await http.post(
         url,
         body: json.encode(dataBody),

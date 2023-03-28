@@ -1,65 +1,53 @@
 import 'package:medico_app/models/user/patient_model.dart';
 
 class UserModel {
-  String? id;
   String? name;
+  String? address;
+  int? phone;
   String? email;
-  String? phone;
-  String? password;
-  String? realMembership;
-  int? creditBalance;
-  List<Vehicles>? vehicles;
-  List<Vital>? vital;
-  String? mitra;
-  Preferensi? preferensi;
+  int? sex;
+  String? dob;
+  List<PatientModel>? pets;
 
   UserModel(
-      {this.id,
-      this.name,
+      {this.name,
       this.email,
       this.phone,
-      this.password,
-      this.creditBalance,
-      this.vehicles,
-      this.realMembership,
-      this.mitra});
+      this.address,
+      this.sex,
+      this.dob,
+      this.pets});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['patientList'][0]['_id'];
     name = json['name'];
+    address = json['address'];
+    phone = json['phones'][0];
     email = json['email'];
-    phone = json['phone'];
-    password = json['password'];
-    // creditBalance = json['credit_balance'];
-    // realMembership = json['real_membership'];
-    if (json['patientList'][0]['vitalList'] != '') {
-      vital = <Vital>[];
-      json['patientList'][0]['vitalList'].forEach((v) {
-        vital!.add(new Vital.fromJson(v));
+    sex = json['sex'];
+    dob = json['dob'];
+    if (json['patientList'][0] != '') {
+      pets = <PatientModel>[];
+      json['patientList'].forEach((v) {
+        pets!.add(new PatientModel.fromJson(v));
       });
     } else {
-      vital = [];
+      pets = [];
     }
-    // mitra = json['mitra'];
-    // preferensi = json['preferensi'] != null
-    //     ? new Preferensi.fromJson(json['preferensi'])
-    //     : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['name'] = this.name;
     data['email'] = this.email;
     data['main_phone'] = this.phone;
-    data['password'] = this.password;
-    data['real_membership'] = this.realMembership;
-    if (this.vehicles![0].id != '') {
-      data['vehicles'] = this.vehicles!.map((v) => v.toJson()).toList();
-    } else {
-      data['vehicles'] = [];
-    }
-    data['mitra'] = this.mitra;
+    // data['password'] = this.password;
+    // data['real_membership'] = this.realMembership;
+    // if (this.vehicles![0].id != '') {
+    //   data['vehicles'] = this.vehicles!.map((v) => v.toJson()).toList();
+    // } else {
+    //   data['vehicles'] = [];
+    // }
+    // data['mitra'] = this.mitra;
     return data;
   }
 }

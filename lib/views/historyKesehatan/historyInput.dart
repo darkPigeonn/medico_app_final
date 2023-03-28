@@ -70,20 +70,20 @@ class _HistoryInputState extends State<HistoryInput> {
 
     print(data);
 
-    await context
-        .read(userProvider.notifier)
-        .getDataProfile()
-        .then((value) async {
-      await context
-          .read(userProvider.notifier)
-          .createVital(value.id!, data)
-          .then((value2) {
-        messageSnackBarColor(context, value2['msg'], cSuccess);
-        Navigator.pop(context);
-      }).catchError((onError) {
-        messageSnackBarColor(context, onError['msg'], cFail);
-      });
-    });
+    // await context
+    //     .read(userProvider.notifier)
+    //     .getDataProfile()
+    //     .then((value) async {
+    //   await context
+    //       .read(userProvider.notifier)
+    //       .createVital(value.id!, data)
+    //       .then((value2) {
+    //     messageSnackBarColor(context, value2['msg'], cSuccess);
+    //     Navigator.pop(context);
+    //   }).catchError((onError) {
+    //     messageSnackBarColor(context, onError['msg'], cFail);
+    //   });
+    // });
   }
 
   @override

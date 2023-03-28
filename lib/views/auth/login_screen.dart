@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Column(
                         children: [
                           const Text(
-                            "MEDICO",
+                            "MEDIVET",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),

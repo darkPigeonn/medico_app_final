@@ -217,7 +217,7 @@ class _CreateStep4State extends State<CreateStep4> {
         .read(userProvider.notifier)
         .getDataProfile()
         .then((value) async {
-      dataSave['patientId'] = value.id;
+      // dataSave['patientId'] = value.id;
       await context
           .read(reservationProvider.notifier)
           .storeReservation(dataSave)

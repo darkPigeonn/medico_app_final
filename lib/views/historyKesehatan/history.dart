@@ -77,7 +77,7 @@ class _HistoryMedicState extends State<HistoryMedic> {
   setDataVital(UserModel data) {
     setState(
       () {
-        listVital = data.vital!;
+        // listVital = data.vital!;
         listVital.map((e) => print(e));
       },
     );

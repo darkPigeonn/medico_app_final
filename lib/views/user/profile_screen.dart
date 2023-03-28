@@ -75,15 +75,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (passwordController.text != '') {
       setPreferences();
-      await context
-          .read(userProvider.notifier)
-          .updateProfile(user.id!, namaController.text, emailController.text,
-              notlpController.text, passwordController.text, oriPreferences)
-          .then((value) {
-        messageSnackBar(context, value['msg']);
-      }).catchError((onError) {
-        messageSnackBar(context, onError['msg']);
-      });
+      // await context
+      //     .read(userProvider.notifier)
+      //     .updateProfile(user.id!, namaController.text, emailController.text,
+      //         notlpController.text, passwordController.text, oriPreferences)
+      //     .then((value) {
+      //   messageSnackBar(context, value['msg']);
+      // }).catchError((onError) {
+      //   messageSnackBar(context, onError['msg']);
+      // });
     } else {
       messageSnackBar(context, "Password salah");
     }

@@ -20,39 +20,39 @@ class UserService {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(keyPref);
 
-    try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
-
-      print("auth service ==> profile...");
-      final url = Uri.parse(urlApi + 'users/profile');
-
-      final response = await http.get(
-        url,
-        headers: {
-          'id': APP_ID,
-          'secret': APP_SECRET,
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      var dataErr;
-      var data = json.decode(response.body);
-
-      if (response.statusCode == 200) {
-        UserModel user = UserModel.fromJson(data);
-
-        return user;
-      } else {
-        dataErr = {'msg': data['message']};
-        throw (dataErr);
-      }
-    } catch (e) {
-      inspect(e);
-      rethrow;
+    // try {
+    bool isConnect = await CheckConnectivity.checkConnection();
+    if (!isConnect) {
+      throw ({'msg': 'tdak ada internet'});
     }
+
+    print("auth service ==> profile...");
+    final url = Uri.parse(urlApi + 'users/profile');
+    final response = await http.get(
+      url,
+      headers: {
+        'id': APP_ID,
+        'secret': APP_SECRET,
+        'Authorization': 'Bearer $token',
+      },
+    );
+    var dataErr;
+    var data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      UserModel user = UserModel.fromJson(data);
+      print("user");
+      print(user);
+      return user;
+    } else {
+      dataErr = {'msg': data['message']};
+      throw (dataErr);
+    }
+    // } catch (e) {
+    //   print('error bro');
+    //   inspect(e);
+    //   rethrow;
+    // }
   }
 
   Future<Map<String, dynamic>> updateProfile(
@@ -127,11 +127,9 @@ class UserService {
       final url = Uri.parse(urlApi + 'v1/myprofile');
 
       Map dataBody = {
-        "id": user.id,
         "name": user.name,
         "email": user.email,
         "phone": user.phone,
-        "password": user.password,
         "vehicles": [
           {
             "id": id,

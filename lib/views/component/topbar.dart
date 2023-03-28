@@ -17,6 +17,8 @@ import 'package:medico_app/utils/primary_txt_field.dart';
 import 'package:medico_app/utils/request_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../notifikasi/notifikasi.dart';
+
 class TopBar extends StatefulWidget {
   const TopBar({Key? key}) : super(key: key);
 
@@ -44,13 +46,9 @@ class _TopBarState extends State<TopBar> {
 
   Future<void> getDataProfile() async {
     bool isconnected = await CheckConnectivity.checkConnection();
-
     if (isconnected) {
       user = UserModel();
       namaController = TextEditingController(text: '');
-      emailController = TextEditingController(text: '');
-      notlpController = TextEditingController(text: '');
-      passwordController = TextEditingController(text: '');
 
       context.read(userProvider.notifier).getDataProfile().then((value) {
         setDataProfile(value);
@@ -68,50 +66,11 @@ class _TopBarState extends State<TopBar> {
     oriPreferences['three'] = preferences[2];
   }
 
-  Future<void> updateDataProfile() async {
-    setState(() {
-      isloading = true;
-    });
-
-    if (passwordController.text != '') {
-      setPreferences();
-      await context
-          .read(userProvider.notifier)
-          .updateProfile(user.id!, namaController.text, emailController.text,
-              notlpController.text, passwordController.text, oriPreferences)
-          .then((value) {
-        messageSnackBar(context, value['msg']);
-      }).catchError((onError) {
-        messageSnackBar(context, onError['msg']);
-      });
-    } else {
-      messageSnackBar(context, "Password salah");
-    }
-
-    setState(() {
-      isloading = false;
-    });
-  }
-
   setDataProfile(UserModel data) {
     setState(() {
       user = data;
       namaController = TextEditingController(text: user.name);
       emailController = TextEditingController(text: user.email);
-
-      // // passwordController = TextEditingController(text: '');
-      // if (data.preferensi!.one != "") {
-      //   // old
-      //   // preferences['one'] = data.preferensi!.one;
-      //   // preferences['two'] = data.preferensi!.two;
-      //   // preferences['three'] = data.preferensi!.three;
-
-      //   // new
-      //   preferences[0] = data.preferensi!.one!;
-      //   preferences[1] = data.preferensi!.two!;
-      //   preferences[2] = data.preferensi!.three!;
-      // }
-
       isloading = false;
     });
   }
@@ -203,18 +162,6 @@ class _TopBarState extends State<TopBar> {
     preferences.insert(newIndex, item);
   }
 
-  // void _onReorder(oldIndex, newIndex) {
-  //   if (newIndex > oldIndex) {
-  //     newIndex = newIndex - 1;
-  //   }
-
-  //   var oldData = preferences[getKey(oldIndex + 1)];
-  //   var newData = preferences[getKey(newIndex + 1)];
-
-  //   preferences[getKey(oldIndex + 1)] = newData!;
-  //   preferences[getKey(newIndex + 1)] = oldData!;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -225,65 +172,135 @@ class _TopBarState extends State<TopBar> {
   Widget build(BuildContext context) {
     Color _color1 = Color(0xFF005288);
     Color _color2 = Color(0xFF37474f);
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {},
-            child: Hero(
-              tag: 'profilePicture',
-              child: CircleAvatar(
-                radius: 15.0,
-                backgroundColor: mPrimary,
-                child: Text(
-                  "${namaController.text[0]}",
-                  style: TextStyle(
-                    color: mFillColor,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      namaController.text,
-                      style: TextStyle(
-                          color: _color2,
+
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Hero(
+                    tag: 'profilePicture',
+                    child: CircleAvatar(
+                      radius: 25.0,
+                      backgroundColor: mPrimary,
+                      child: Text(
+                        "${namaController.text[0].toUpperCase()}",
+                        style: TextStyle(
+                          color: mFillColor,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Selamat Pagi !',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      namaController.text.toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )
+              ],
             ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 32),
-            width: 1,
-            height: 40,
-            color: Colors.grey[300],
-          ),
-          GestureDetector(
-            onDoubleTap: () {
-              logout();
-            },
-            child: Text('Keluar',
-                style: TextStyle(color: _color2, fontWeight: FontWeight.bold)),
-          )
-        ],
-      ),
+            Container(
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotifikasiPage()));
+                },
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
+        )
+      ],
     );
+    // return Container(
+    //   padding: EdgeInsets.all(20),
+    //   child: Row(
+    //     children: [
+    //       GestureDetector(
+    //         onTap: () {},
+    //         child: Hero(
+    //           tag: 'profilePicture',
+    //           child: CircleAvatar(
+    //             radius: 15.0,
+    //             backgroundColor: mPrimary,
+    //             child: Text(
+    //               "${namaController.text[0]}",
+    //               style: TextStyle(
+    //                 color: mFillColor,
+    //                 fontSize: 10,
+    //                 fontWeight: FontWeight.bold,
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //       Expanded(
+    //         child: Container(
+    //           padding: EdgeInsets.symmetric(horizontal: 16),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               // GestureDetector(
+    //               //   onTap: () {},
+    //               //   child: Text(
+    //               //     namaController.text,
+    //               //     style: TextStyle(
+    //               //         color: _color2,
+    //               //         fontWeight: FontWeight.bold,
+    //               //         fontSize: 16),
+    //               //     maxLines: 1,
+    //               //     overflow: TextOverflow.ellipsis,
+    //               //   ),
+    //               // ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //       Container(
+    //         margin: EdgeInsets.symmetric(horizontal: 32),
+    //         width: 1,
+    //         height: 40,
+    //         color: Colors.grey[300],
+    //       ),
+    //       GestureDetector(
+    //         onDoubleTap: () {
+    //           logout();
+    //         },
+    //         child: Text('Keluar',
+    //             style: TextStyle(color: _color2, fontWeight: FontWeight.bold)),
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }

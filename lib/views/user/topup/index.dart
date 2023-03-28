@@ -74,8 +74,8 @@ class _IndexTopUpState extends State<IndexTopUp> {
 
   Future getSaldo() async {
     await context.read(userProvider.notifier).getDataProfile().then((dataUser) {
-      saldo = dataUser.creditBalance!;
-      membership = dataUser.realMembership!;
+      // saldo = dataUser.creditBalance!;
+      // membership = dataUser.realMembership!;
     }).catchError((onError) {
       messageSnackBar(context, onError['msg']);
     });

@@ -18,7 +18,9 @@ import 'package:medico_app/views/resources/listresources.dart';
 import 'package:medico_app/views/user/topup/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../component/pets.dart';
 import '../component/topbar.dart';
+import '../notifikasi/notifikasi.dart';
 import '../reservastion/show_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -112,255 +114,76 @@ class _MainScreenState extends State<MainScreen> {
         slug: 'slug',
         imageLink: 'imageLink');
     return Scaffold(
-      // appBar: TopNavBar(),
-      // bottomNavigationBar: BottomNavbar(),
-      body: Container(
+      backgroundColor: Color.fromARGB(255, 0, 68, 255),
+      body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
-            SafeArea(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TopBar(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Artikel Kesehatan',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CorauselCard(title: 'title'),
-
-                          // ClayCard(baseColor: Colors.purple),
-                          Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(right: 10),
-                            child: InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ListResources(
-                                            type: 'Artikel',
-                                          ))),
-                              child: Text(
-                                'Lihat lebih banyak',
-                                style: TextStyle(color: mPrimary),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          Text(
-                            'Reservasi',
-                            style: titleSectionLanding,
-                          ),
-                          Text(
-                            'Reservasi Hari Ini',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          ReservationsToday(),
-                          SizedBox(
-                            height: 20,
-                          ),
-
-                          Row(
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.aod_rounded,
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      IndexReservation()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Daftar Reservasi',
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 90,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.assignment_rounded,
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CreateReservation()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Buat Reservasi',
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            'Tentang Kami',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-
-                          Row(
-                            children: [
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.person,
-                                        onPressed: () {
-                                          print(';');
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Dokter')
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon:
-                                            Icons.health_and_safety_rounded,
-                                        onPressed: () {
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryMedic()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Layanan')
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 100,
-                                child: Column(
-                                  children: [
-                                    button_clay(
-                                        baseColor:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                        baseIcon: Icons.import_contacts_sharp,
-                                        onPressed: () {
-                                          // Navigator.push(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             HistoryMedic()));
-                                        }),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text('Riwayat')
-                                  ],
-                                ),
-                              ),
-                              // Column(
-                              //   children: [
-                              //     button_clay(baseColor: Color.fromARGB(255, 255, 255, 255)),
-                              //      SizedBox(height: 5,),
-                              //     Text('Dokter')
-                              //   ],
-                              // ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            'Berita',
-                            style: titleSectionLanding,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          CardLandscape(
-                            modelResources1: modelResources1,
-                          ),
-                          Container(
-                            alignment: Alignment.topRight,
-                            margin: EdgeInsets.only(right: 10),
-                            child: InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ListResources(
-                                            type: 'Artikel',
-                                          ))),
-                              child: Text(
-                                'Lihat lebih banyak',
-                                style: TextStyle(color: mPrimary),
-                              ),
-                            ),
-                          ),
-                          // button_clay(baseColor: baseColor, size: size),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
+            Container(
+              color: Colors.white,
+              height: double.infinity,
+              margin: EdgeInsets.only(top: size.height * 0.35),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TopBar(),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      'Rawat hewan kesayanganmu',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
+
+                    SizedBox(
+                      height: 10,
+                    ),
+                    PetsSection(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _MenuSection(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    // _AnnouncementSection(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      'Baca Artikel Terkini',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // _BlogSection()
+                  ],
+                ),
               ),
-            ))
+            )
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Beranda',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profil',
+        ),
+      ]),
     );
   }
 
@@ -593,5 +416,87 @@ class ReservationsToday extends StatelessWidget {
       }
       return status;
     }
+  }
+}
+
+class _MenuSection extends StatelessWidget {
+  const _MenuSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    textColor: Color.fromARGB(255, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.task,
+                          size: 60,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Daftar Reservasi')
+                      ],
+                    ),
+                    padding: EdgeInsets.all(10),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => Reservations(),
+                      //   ),
+                      // );
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    textColor: Color.fromARGB(255, 0, 0, 0),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.add_task,
+                          size: 60,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Buat Reservasi')
+                      ],
+                    ),
+                    padding: EdgeInsets.all(10),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )
+      ],
+    );
   }
 }
