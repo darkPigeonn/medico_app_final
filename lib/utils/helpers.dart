@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:medico_app/utils/request_util.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_moment/simple_moment.dart';
 
 class CurrencyFormat {
   static String convertToIdr(dynamic number, int decimalDigit) {
@@ -53,4 +54,24 @@ Color getColorMembership(String membership) {
   }
 
   return Color(0xFF07AEE2);
+}
+
+getGender(int code) {
+  String gender = '-';
+
+  switch (code) {
+    case 1:
+      gender = 'Jantan';
+      break;
+    case 2:
+      gender = 'Betina';
+      break;
+    default:
+  }
+
+  return gender;
+}
+
+getHRDDate(String date) {
+  return Moment.parse(date).format('dd MMMM yyyy');
 }

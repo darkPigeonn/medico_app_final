@@ -103,14 +103,14 @@ class _CreateStep1State extends State<CreateStep1> {
                                   return Card(
                                     child: InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          generateSlideTransitionHorizontal(
-                                            CreateStep2(
-                                              sublist: e,
-                                            ),
-                                          ),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   generateSlideTransitionHorizontal(
+                                        //     CreateStep2(
+                                        //       sublist: e,
+                                        //     ),
+                                        //   ),
+                                        // );
                                       },
                                       child: Container(
                                           width:

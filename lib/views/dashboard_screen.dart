@@ -62,50 +62,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
-          bottomNavigationBar: Container(
-            height: 69,
-            decoration: BoxDecoration(
-              color: mPrimary,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    spreadRadius: 2,
-                    blurRadius: 15,
-                    offset: Offset(0, 5))
-              ],
-            ),
-            child: BottomNavigationBar(
-              unselectedItemColor: Colors.white70,
-              selectedItemColor: Colors.white,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: "Beranda",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.list_alt),
-                  label: "Data Vital",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: "Profil",
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              backgroundColor: Colors.transparent,
-              type: BottomNavigationBarType.fixed,
-              unselectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              selectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-              selectedFontSize: 12,
-              showUnselectedLabels: true,
-              elevation: 0,
-            ),
-          ),
           body: Container(
             child: getPage(_selectedIndex),
           ),

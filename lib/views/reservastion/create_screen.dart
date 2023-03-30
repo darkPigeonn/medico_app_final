@@ -1,7 +1,9 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:medico_app/models/outlet/outlet_model.dart';
+import 'package:medico_app/models/outlet/sublist_model.dart';
 import 'package:medico_app/models/reservation/loket_model.dart';
+import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
 import 'package:medico_app/services/reservation/master_service.dart';
 import 'package:medico_app/utils/const_color.dart';
@@ -15,6 +17,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../models/user/user_model.dart';
 
 class CreateReservation extends StatefulWidget {
   const CreateReservation({Key? key}) : super(key: key);
@@ -39,6 +43,11 @@ class _CreateReservationState extends State<CreateReservation> {
   int idCircle = 1;
   double radius = 30;
 
+  //medivet
+  List<PatientModel> animals = [];
+  List<PatientModel> _selectedAnimals = [];
+
+  late SublistModel sublist;
   static const LatLng _center = const LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
@@ -53,9 +62,10 @@ class _CreateReservationState extends State<CreateReservation> {
 
     if (isconnected) {
       await context.read(userProvider.notifier).getDataProfile().then((value) {
-        // customerId = value.id!;
-        // saldo = value.creditBalance!;
-        email = value.email!;
+        setState(() {
+          UserModel user = value;
+          animals = user.pets!;
+        });
       }).catchError((onError) {
         print('error gaes');
         messageSnackBar(context, onError['msg']);
@@ -63,6 +73,7 @@ class _CreateReservationState extends State<CreateReservation> {
 
       await MasterService().getLokets().then((value) {
         lokets = value;
+        sublist = lokets![0].subList![0];
       }).catchError((e) {
         messageSnackBar(context, e['msg']);
         lokets = [];
@@ -137,7 +148,10 @@ class _CreateReservationState extends State<CreateReservation> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: mPrimary,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -145,7 +159,7 @@ class _CreateReservationState extends State<CreateReservation> {
             },
             icon: Icon(
               Icons.replay_outlined,
-              color: mWhite,
+              color: Colors.black,
             ),
           ),
         ],
@@ -156,89 +170,89 @@ class _CreateReservationState extends State<CreateReservation> {
                 child: CircularProgressIndicator(),
               )
             : Container(
-                color: mPrimary,
+                margin: EdgeInsets.all(15),
+                color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.all(15),
                       child: Text(
-                        'Silahkan Pilih Outlet',
+                        'Buat Reservasi',
                         style: TextStyle(
-                            fontSize: 20,
-                            color: mWhite,
-                            fontWeight: FontWeight.normal),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: Column(
-                            children: [
-                              ...lokets!.map(
-                                (e) {
-                                  return Card(
-                                      child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          generateSlideTransitionHorizontal(
-                                              CreateStep1(
-                                            outlet: e,
-                                          )));
-                                    },
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              transform:
-                                                  Matrix4.translationValues(
-                                                      -20.0, 0.0, 0.0),
-                                              width: 150,
-                                              height: 100,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/card-outlet.png')),
-                                              ),
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  e.name.toString(),
-                                                  style: GoogleFonts.alike(
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  e.address.toString(),
-                                                  style: GoogleFonts.alike(
-                                                      fontSize: 12,
-                                                      color: Color.fromARGB(
-                                                          255, 202, 202, 202)),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )),
-                                  ));
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Silahkan Pilih Hewan Kesayangan Anda',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Color.fromARGB(255, 0, 0, 0)),
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: animals.length,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                            title: Text(animals[index].petName!),
+                            value: _selectedAnimals.contains(animals[index]),
+                            onChanged: (value) {
+                              if (value!) {
+                                setState(() {
+                                  _selectedAnimals.add(animals[index]);
+                                });
+                              } else {
+                                setState(() {
+                                  _selectedAnimals.remove(animals[index]);
+                                });
+                              }
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
+      ),
+      bottomSheet: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 60,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // ElevatedButton(
+              //   child: Text('Kembali'),
+              //   onPressed: () {},
+              // ),
+              ElevatedButton(
+                child: Text('Selanjutnya'),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contex) => CreateStep2(
+                                selectedAnimals: _selectedAnimals,
+                                sublist: sublist,
+                              )));
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

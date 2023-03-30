@@ -4,6 +4,7 @@ import 'package:medico_app/models/outlet/outlet_model.dart';
 import 'package:medico_app/models/outlet/sublist_model.dart';
 import 'package:medico_app/models/reservation/layanan_model.dart';
 import 'package:medico_app/models/reservation/loket_model.dart';
+import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/models/user/user_model.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
 import 'package:medico_app/services/reservation/master_service.dart';
@@ -25,8 +26,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 class CreateStep2 extends StatefulWidget {
+  final List<PatientModel> selectedAnimals;
   final SublistModel sublist;
-  const CreateStep2({Key? key, required this.sublist}) : super(key: key);
+  const CreateStep2(
+      {Key? key, required this.selectedAnimals, required this.sublist})
+      : super(key: key);
 
   @override
   _CreateStep2State createState() => _CreateStep2State();
@@ -74,167 +78,123 @@ class _CreateStep2State extends State<CreateStep2> {
   @override
   Widget build(BuildContext context) {
     services = widget.sublist.services!;
-    print(services);
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Container(
-            margin: EdgeInsets.all(2),
-            height: double.infinity,
-            child: Center(
-              child: Text("step 2-3"),
-            ),
-          ),
-        ],
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Container(
-              color: mPrimary,
+              width: double.infinity,
+              margin: EdgeInsets.all(15),
+              color: mWhite,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Klinik - Adi Utama',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: mWhite,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Poli Umum',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: mWhite,
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      'Buat Reservasi',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Silahkan Pilih Layanan',
+                    style: TextStyle(fontSize: 16),
+                  ),
                   Expanded(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      child: SingleChildScrollView(
-                        child: SafeArea(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                ...services.map(
-                                  (e) {
-                                    return Card(
-                                      child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...services.map((e) {
+                            return Card(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    width: 90,
-                                                    height: 90,
-                                                    child: SvgPicture.asset(
-                                                      'assets/suboutlet.svg',
-                                                      fit: BoxFit.cover,
-                                                    ),
+                                              Container(
+                                                child: Text(
+                                                  e.name
+                                                      .toString()
+                                                      .capitalizeFirstofEach,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: GoogleFonts.alike(
+                                                    fontSize: 16,
                                                   ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        width: 150,
-                                                        child: Text(
-                                                          e.nameCap.toString(),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              GoogleFonts.alike(
-                                                            fontSize: 18,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Divider(),
-                                                      Container(
-                                                        child: Text('Rp ' +
-                                                            e.price.toString()),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                      padding:
-                                                          EdgeInsets.all(5),
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                primary: e
-                                                                        .getIsChecked()
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .blue),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            bool selected =
-                                                                e.isSelected;
-                                                            e.setIsChecked(
-                                                                !selected);
-                                                            e.getIsChecked()
-                                                                ? selectedServices
-                                                                    .add(e)
-                                                                : selectedServices.removeWhere(
-                                                                    (element) =>
-                                                                        element
-                                                                            .id ==
-                                                                        e.id);
-
-                                                            renderTotalPrice();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                            e.getIsChecked()
-                                                                ? 'Hapus'
-                                                                : 'Pilih'),
-                                                      ))
-                                                ],
+                                                ),
                                               ),
+                                              Divider(),
+                                              Container(
+                                                child: Text(
+                                                    'Rp ' + e.price.toString()),
+                                              )
                                             ],
-                                          )),
-                                    );
-                                  },
+                                          ),
+                                        ),
+                                        Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: e.getIsChecked()
+                                                      ? Colors.red
+                                                      : Colors.blue),
+                                              onPressed: () {
+                                                setState(() {
+                                                  bool selected = e.isSelected;
+                                                  e.setIsChecked(!selected);
+                                                  e.getIsChecked()
+                                                      ? selectedServices.add(e)
+                                                      : selectedServices
+                                                          .removeWhere(
+                                                              (element) =>
+                                                                  element.id ==
+                                                                  e.id);
+
+                                                  renderTotalPrice();
+                                                });
+                                              },
+                                              child: Text(e.getIsChecked()
+                                                  ? 'Hapus'
+                                                  : 'Pilih'),
+                                            ))
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
+                            );
+                          }),
+                        ],
                       ),
                     ),
                   ),
@@ -244,7 +204,7 @@ class _CreateStep2State extends State<CreateStep2> {
                           child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               color: Colors.green,
-                              width: MediaQuery.of(context).size.width,
+                              width: double.infinity,
                               height: 50,
                               child: Row(
                                 mainAxisAlignment:
@@ -282,6 +242,8 @@ class _CreateStep2State extends State<CreateStep2> {
                                               totalPrices: totalPrice,
                                               selectedServices:
                                                   selectedServices,
+                                              selectedAnimals:
+                                                  widget.selectedAnimals,
                                             ),
                                           ),
                                         );
@@ -294,34 +256,6 @@ class _CreateStep2State extends State<CreateStep2> {
                 ],
               ),
             ),
-    );
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

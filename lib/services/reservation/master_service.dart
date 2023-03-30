@@ -92,12 +92,14 @@ class MasterService {
         throw ({'msg': 'tdak ada internet'});
       }
       print(date);
+      print(outlet);
+      print(date);
+      print(date);
       var dateFormat = DateFormat('dd-MM-yyyy');
       var newDate = dateFormat.format(DateTime.parse(date)).toString();
       final url =
           // Uri.parse(urlApi + 'users/reservation/$outlet/quota/$newDate');
-          Uri.parse(urlApi +
-              'users/reservation/quota?poli=$outlet&date=$newDate&service=$servicesId');
+          Uri.parse(urlApi + 'users/reservation/$outlet/quota/$newDate');
       print(url);
       final token = await getToken();
 

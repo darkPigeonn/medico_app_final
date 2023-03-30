@@ -6,6 +6,7 @@ import 'package:medico_app/models/outlet/sublist_model.dart';
 import 'package:medico_app/models/reservation/layanan_model.dart';
 import 'package:medico_app/models/reservation/loket_model.dart';
 import 'package:medico_app/models/reservation/waktu_tersedia_model.dart';
+import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/models/user/user_model.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
 import 'package:medico_app/services/reservation/master_service.dart';
@@ -28,11 +29,13 @@ class CreateStep3 extends StatefulWidget {
   final SublistModel subList;
   final int totalPrices;
   final List<ServiceModel> selectedServices;
+  final List<PatientModel> selectedAnimals;
   const CreateStep3(
       {Key? key,
       required this.subList,
       required this.totalPrices,
-      required this.selectedServices})
+      required this.selectedServices,
+      required this.selectedAnimals})
       : super(key: key);
 
   @override
@@ -80,47 +83,29 @@ class _CreateStep2State extends State<CreateStep3> {
     hours!.map((e) => print(e));
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Container(
-            margin: EdgeInsets.all(2),
-            height: double.infinity,
-            child: Center(
-              child: Text("step 2-3"),
-            ),
-          ),
-        ],
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
       ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Container(
-              color: mPrimary,
+              margin: EdgeInsets.all(15),
+              color: mWhite,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Klinik - Adi Utama',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: mWhite,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Poli Umum',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: mWhite,
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      'Buat Reservasi',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -128,14 +113,14 @@ class _CreateStep2State extends State<CreateStep3> {
                       child: Container(
                         height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                        ),
+                        color: mWhite,
+                        // decoration: BoxDecoration(
+                        //   color: Color.fromARGB(255, 255, 255, 255),
+                        //   borderRadius: BorderRadius.only(
+                        //       topLeft: Radius.circular(20),
+                        //       topRight: Radius.circular(20)),
+                        // ),
                         child: Container(
-                          margin: EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -265,10 +250,9 @@ class _CreateStep2State extends State<CreateStep3> {
                                         Colors.red);
                                   } else {
                                     var reservationDate =
-                                      selectedDate.toString() +
-                                          ',' +
-                                          selectedWaktu.label.toString();
-
+                                        selectedDate.toString() +
+                                            ',' +
+                                            selectedWaktu.label.toString();
 
                                     var objectSave = {
                                       "subList": widget.subList,

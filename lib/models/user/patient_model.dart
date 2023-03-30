@@ -2,6 +2,7 @@ class PatientModel {
   String? id;
   String? petName;
   String? dob;
+  String? species;
   int? sex;
 
   PatientModel({this.id, this.petName, this.dob, this.sex});
@@ -11,6 +12,7 @@ class PatientModel {
     petName = json['petName'];
     dob = json['dob'];
     sex = json['sex'];
+    species = json['species'] != null ? json['species'] : 'Hewan';
   }
 
   Map<String, dynamic> toJson() {
