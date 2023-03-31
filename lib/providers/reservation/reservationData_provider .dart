@@ -28,12 +28,10 @@ class ReservationDataProvider
   int initPage = 1;
 
   Future<void> getReservation() async {
-    print('das');
     try {
       datas = [];
       initPage = 1;
       state = AsyncValue.loading();
-      print('disini');
       final data = await _reservationService!.getUserReservation();
 
       if (mounted) {

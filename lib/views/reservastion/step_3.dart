@@ -93,122 +93,132 @@ class _CreateStep2State extends State<CreateStep3> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Container(
-              margin: EdgeInsets.all(15),
-              color: mWhite,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      'Buat Reservasi',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SafeArea(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        color: mWhite,
-                        // decoration: BoxDecoration(
-                        //   color: Color.fromARGB(255, 255, 255, 255),
-                        //   borderRadius: BorderRadius.only(
-                        //       topLeft: Radius.circular(20),
-                        //       topRight: Radius.circular(20)),
-                        // ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: Text('Silahkan Pilih Tanggal ')),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    final DateTime? selected =
-                                        await showDatePicker(
-                                      context: context,
-                                      initialDate: beforeNow,
-                                      firstDate: beforeNow,
-                                      lastDate: DateTime(beforeNow.year + 5),
-                                    );
-                                    if (selected != null &&
-                                        selected != selectedDate) {
-                                      checkTimeAvailable(selected);
-                                      setState(() {
-                                        selectedDate = selected;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    selectedDate == null
-                                        ? "-Pilih Tanggal-"
-                                        : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white, // background
-                                    onPrimary: Colors.black, // foreground
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text('Silahkan Pilih Jam Operasional'),
-                              ),
-                              Container(
-                                  child: Expanded(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      ...hoursAvailable.map(
-                                        (value) {
-                                          if (value.enabled) {
-                                            return RadioListTile<WaktuTersedia>(
-                                              title:
-                                                  Text(value.label.toString()),
-                                              value: value,
-                                              activeColor: mBlack,
-                                              groupValue: selectedWaktu,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedWaktu = value!;
-                                                });
-                                              },
-                                            );
-                                          } else {
-                                            return ListTile(
-                                              leading: Icon(Icons.close),
-                                              title:
-                                                  Text(value.label.toString()),
-                                            );
-                                          }
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                            ],
+          : Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(15),
+                  color: mWhite,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Buat Reservasi',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ),
+                      Expanded(
+                        child: SafeArea(
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            color: mWhite,
+                            // decoration: BoxDecoration(
+                            //   color: Color.fromARGB(255, 255, 255, 255),
+                            //   borderRadius: BorderRadius.only(
+                            //       topLeft: Radius.circular(20),
+                            //       topRight: Radius.circular(20)),
+                            // ),
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Text('Silahkan Pilih Tanggal ')),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        final DateTime? selected =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: beforeNow,
+                                          firstDate: beforeNow,
+                                          lastDate:
+                                              DateTime(beforeNow.year + 5),
+                                        );
+                                        if (selected != null &&
+                                            selected != selectedDate) {
+                                          checkTimeAvailable(selected);
+                                          setState(() {
+                                            selectedDate = selected;
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        selectedDate == null
+                                            ? "-Pilih Tanggal-"
+                                            : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.white, // background
+                                        onPrimary: Colors.black, // foreground
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child:
+                                        Text('Silahkan Pilih Jam Operasional'),
+                                  ),
+                                  Container(
+                                      child: Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          ...hoursAvailable.map(
+                                            (value) {
+                                              if (value.enabled) {
+                                                return RadioListTile<
+                                                    WaktuTersedia>(
+                                                  title: Text(
+                                                      value.label.toString()),
+                                                  value: value,
+                                                  activeColor: mBlack,
+                                                  groupValue: selectedWaktu,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      selectedWaktu = value!;
+                                                    });
+                                                  },
+                                                );
+                                              } else {
+                                                return ListTile(
+                                                  leading: Icon(Icons.close),
+                                                  title: Text(
+                                                      value.label.toString()),
+                                                );
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
-                  Align(
+                ),
+                Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -255,6 +265,7 @@ class _CreateStep2State extends State<CreateStep3> {
                                             selectedWaktu.label.toString();
 
                                     var objectSave = {
+                                    'patients': widget.selectedAnimals,
                                       "subList": widget.subList,
                                       "subOuletId": widget.subList.id,
                                       "date": selectedDate,
@@ -278,8 +289,7 @@ class _CreateStep2State extends State<CreateStep3> {
                           ],
                         )), //last one
                   )
-                ],
-              ),
+              ],
             ),
     );
   }

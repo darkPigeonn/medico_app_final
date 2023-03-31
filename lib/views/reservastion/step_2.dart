@@ -91,113 +91,125 @@ class _CreateStep2State extends State<CreateStep2> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(15),
-              color: mWhite,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      'Buat Reservasi',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+          : Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.all(15),
+                  color: mWhite,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Buat Reservasi',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Silahkan Pilih Layanan',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ...services.map((e) {
-                            return Card(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Silahkan Pilih Layanan',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              ...services.map((e) {
+                                return Card(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.5,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                child: Text(
-                                                  e.name
-                                                      .toString()
-                                                      .capitalizeFirstofEach,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: GoogleFonts.alike(
-                                                    fontSize: 16,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      e.name
+                                                          .toString()
+                                                          .capitalizeFirstofEach,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: GoogleFonts.alike(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  Divider(),
+                                                  Container(
+                                                    child: Text('Rp ' +
+                                                        e.price.toString()),
+                                                  )
+                                                ],
                                               ),
-                                              Divider(),
-                                              Container(
-                                                child: Text(
-                                                    'Rp ' + e.price.toString()),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                            padding: EdgeInsets.all(5),
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: e.getIsChecked()
-                                                      ? Colors.red
-                                                      : Colors.blue),
-                                              onPressed: () {
-                                                setState(() {
-                                                  bool selected = e.isSelected;
-                                                  e.setIsChecked(!selected);
-                                                  e.getIsChecked()
-                                                      ? selectedServices.add(e)
-                                                      : selectedServices
-                                                          .removeWhere(
-                                                              (element) =>
-                                                                  element.id ==
-                                                                  e.id);
+                                            ),
+                                            Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary:
+                                                              e.getIsChecked()
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .blue),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      bool selected =
+                                                          e.isSelected;
+                                                      e.setIsChecked(!selected);
+                                                      e.getIsChecked()
+                                                          ? selectedServices
+                                                              .add(e)
+                                                          : selectedServices
+                                                              .removeWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .id ==
+                                                                      e.id);
 
-                                                  renderTotalPrice();
-                                                });
-                                              },
-                                              child: Text(e.getIsChecked()
-                                                  ? 'Hapus'
-                                                  : 'Pilih'),
-                                            ))
+                                                      renderTotalPrice();
+                                                    });
+                                                  },
+                                                  child: Text(e.getIsChecked()
+                                                      ? 'Hapus'
+                                                      : 'Pilih'),
+                                                ))
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                        ],
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                ),
                   selectedServices.length > 0
                       ? Align(
                           alignment: Alignment.bottomCenter,
@@ -253,8 +265,7 @@ class _CreateStep2State extends State<CreateStep2> {
                               )), //last one
                         )
                       : Container()
-                ],
-              ),
+              ],
             ),
     );
   }

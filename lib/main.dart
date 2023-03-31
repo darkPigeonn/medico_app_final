@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Medico App',
+      title: 'Medivet App',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+          )
       ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),

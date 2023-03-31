@@ -5,6 +5,8 @@ import 'package:medico_app/utils/request_util.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_moment/simple_moment.dart';
 
+import 'package:dospace/dospace.dart' as dospace;
+
 class CurrencyFormat {
   static String convertToIdr(dynamic number, int decimalDigit) {
     if (number == null) {
@@ -74,4 +76,47 @@ getGender(int code) {
 
 getHRDDate(String date) {
   return Moment.parse(date).format('dd MMMM yyyy');
+}
+
+Future<String> uploadImages(File file, String id) async {
+  print('hola halo');
+
+  dospace.Spaces spaces = new dospace.Spaces(
+    region: "sgp1",
+    accessKey: "JCF6N7HWI4BIHYE5QLMD",
+    secretKey: "7aGiKWmNa/hy78c9SrYHPkoPwhjoSl4YGVM9PHuFL/Y",
+  );
+
+  String basePathDigitalOcean =
+      'https://imavistatic.sgp1.digitaloceanspaces.com';
+
+  // for (String name in await spaces.listAllBuckets()) {
+  //   print('bucket : ${name}');
+  // }
+  var date = DateTime.now();
+  String formattedDate = DateFormat('dd-mm-yyyy').format(date);
+
+  var _fileName = 'presensi-' + formattedDate + '-' + id;
+  var _extension = '.jpg';
+  var _contentType = 'image/.jpg';
+  var _filePath = file.path;
+  var _filePathDigitalOcean =
+      "https://cdn.imavi.org" + '/photoPresensi/' + _fileName + _extension;
+
+  dospace.Bucket bucket = spaces.bucket('imavistatic');
+
+  try {
+    await bucket
+        .uploadFile("photoPresensi/" + (_fileName + _extension), file,
+            _extension, dospace.Permissions.public)
+        .then((value) {});
+
+    Map dataReturn = {
+      'statusCode': 200,
+      'body': _filePathDigitalOcean,
+    };
+    return _filePathDigitalOcean;
+  } catch (e) {
+    throw (e);
+  }
 }

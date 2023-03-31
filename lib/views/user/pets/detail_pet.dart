@@ -13,19 +13,33 @@ class DetailPet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: SafeArea(
       child: Container(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.arrow_back),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  ),
+                ),
+                Container(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Ubah'),
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 30,

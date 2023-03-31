@@ -25,7 +25,7 @@ class UserService {
     if (!isConnect) {
       throw ({'msg': 'tdak ada internet'});
     }
-
+    print(token);
     print("auth service ==> profile...");
     final url = Uri.parse(urlApi + 'users/profile');
     final response = await http.get(

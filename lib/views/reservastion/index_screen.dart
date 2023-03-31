@@ -131,8 +131,10 @@ class _IndexReservationState extends State<IndexReservation> {
                     child: Consumer(
                       builder: (context, watch, child) {
                         final reservationData = watch(reservationDataProvider);
+
                         return reservationData.when(
                           data: (data) {
+                            print(data.length);
                             if (data.length == 0) {
                               return Center(
                                 child: Text("Tidak Ada Data"),
@@ -146,11 +148,11 @@ class _IndexReservationState extends State<IndexReservation> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          generateSlideTransition(
-                                              ShowReservasi(data: data[index])),
-                                        );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   generateSlideTransition(
+                                        //       ShowReservasi(data: data[index])),
+                                        // );
                                       },
                                       child: Container(
                                         margin: EdgeInsets.all(10),
@@ -164,20 +166,20 @@ class _IndexReservationState extends State<IndexReservation> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
-                                            Container(
-                                              width: 100,
-                                              color: Colors.amber,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  formatStatus(data[index]
-                                                      .status
-                                                      .toString()),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
+                                            // Container(
+                                            //   width: 100,
+                                            //   color: Colors.amber,
+                                            //   child: Padding(
+                                            //     padding:
+                                            //         const EdgeInsets.all(8.0),
+                                            //     child: Text(
+                                            //       formatStatus(data[index]
+                                            //           .status
+                                            //           .toString()),
+                                            //       textAlign: TextAlign.center,
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             Container(
                                               margin: EdgeInsets.only(
                                                   left: 20, bottom: 10),
@@ -219,28 +221,28 @@ class _IndexReservationState extends State<IndexReservation> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.person,
-                                                        color: mPrimary,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                        data[index]
-                                                            .patientName!
-                                                            .toUpperCase(),
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            color: mBlack,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )
-                                                    ],
-                                                  ),
+                                                  // Row(
+                                                  //   children: [
+                                                  //     Icon(
+                                                  //       Icons.person,
+                                                  //       color: mPrimary,
+                                                  //     ),
+                                                  //     SizedBox(
+                                                  //       width: 10,
+                                                  //     ),
+                                                  //     Text(
+                                                  //       data[index]
+                                                  //           .patientName!
+                                                  //           .toUpperCase(),
+                                                  //       style: TextStyle(
+                                                  //           fontSize: 16,
+                                                  //           color: mBlack,
+                                                  //           fontWeight:
+                                                  //               FontWeight
+                                                  //                   .bold),
+                                                  //     )
+                                                  //   ],
+                                                  // ),
                                                   SizedBox(
                                                     height: 10,
                                                   ),

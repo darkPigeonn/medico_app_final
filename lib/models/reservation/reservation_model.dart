@@ -4,21 +4,20 @@ import 'package:medico_app/models/user/user_model.dart';
 
 class ReservationModel {
   String? id;
-  String? patientId;
   String? subOutletId;
   String? reservationDate;
   List<ServiceModel>? services;
 
   ReservationModel(
       {this.id,
-      this.patientId,
+
       this.reservationDate,
       this.subOutletId,
       this.services});
 
   ReservationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    patientId = json['patientId'];
+
     reservationDate = json['reservationDate'];
     subOutletId = json['subOutletId'];
     if (json['services'] != null) {
@@ -34,7 +33,7 @@ class ReservationModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['patientId'] = this.patientId;
+
     data['reservationDate'] = this.reservationDate;
     data['subOutletId'] = this.subOutletId;
     if (this.services != null) {

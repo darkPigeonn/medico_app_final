@@ -8,7 +8,7 @@ class PatientModel {
   PatientModel({this.id, this.petName, this.dob, this.sex});
 
   PatientModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     petName = json['petName'];
     dob = json['dob'];
     sex = json['sex'];
