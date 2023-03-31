@@ -79,16 +79,15 @@ getHRDDate(String date) {
 }
 
 Future<String> uploadImages(File file, String id) async {
-  print('hola halo');
+  // print('hola halo');
 
   dospace.Spaces spaces = new dospace.Spaces(
     region: "sgp1",
-    accessKey: "JCF6N7HWI4BIHYE5QLMD",
-    secretKey: "7aGiKWmNa/hy78c9SrYHPkoPwhjoSl4YGVM9PHuFL/Y",
+    accessKey: "DO00PP2ZVBNWVGD4Y7V8",
+    secretKey: "PNnmfACeClcZCDM8pUk+cBjJCiFYsW3sKX8C1TcM5Go",
   );
 
-  String basePathDigitalOcean =
-      'https://imavistatic.sgp1.digitaloceanspaces.com';
+  String basePathDigitalOcean = 'https://sgp1.digitaloceanspaces.com/';
 
   // for (String name in await spaces.listAllBuckets()) {
   //   print('bucket : ${name}');
@@ -96,18 +95,18 @@ Future<String> uploadImages(File file, String id) async {
   var date = DateTime.now();
   String formattedDate = DateFormat('dd-mm-yyyy').format(date);
 
-  var _fileName = 'presensi-' + formattedDate + '-' + id;
+  var _fileName = 'pets-' + id;
   var _extension = '.jpg';
   var _contentType = 'image/.jpg';
   var _filePath = file.path;
   var _filePathDigitalOcean =
-      "https://cdn.imavi.org" + '/photoPresensi/' + _fileName + _extension;
+      "https://cdn.ptalia.co.id" + '/medivet/pets/' + _fileName + _extension;
 
-  dospace.Bucket bucket = spaces.bucket('imavistatic');
+  dospace.Bucket bucket = spaces.bucket('ptalia');
 
   try {
     await bucket
-        .uploadFile("photoPresensi/" + (_fileName + _extension), file,
+        .uploadFile("medivet/pets/" + (_fileName + _extension), file,
             _extension, dospace.Permissions.public)
         .then((value) {});
 

@@ -1,9 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:medico_app/models/user/patient_model.dart';
+import 'package:medico_app/providers/user/user_provider.dart';
 
 import '../../../utils/helpers.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../utils/request_util.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DetailPet extends StatelessWidget {
   const DetailPet({super.key, required this.pet});
@@ -13,7 +25,6 @@ class DetailPet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: SafeArea(
       child: Container(
         width: double.infinity,
@@ -49,21 +60,52 @@ class DetailPet extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Hero(
-                    tag: 'profilePicture',
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.all(50),
-                      child: Text(
-                        pet.petName.toString()[0].toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  InkWell(
+                    onTap: () async {
+                      final image = await await ImagePicker()
+                          .getImage(source: ImageSource.camera);
+
+                      if (image == null) return;
+
+                      final imageTemporay = File(image.path);
+
+                      uploadImages(imageTemporay, pet.id!).then((value) async {
+                        SharedPreferences sp =
+                            await SharedPreferences.getInstance();
+                        String? token = sp.getString(keyPref);
+
+                        context.read(userProvider.notifier).storeDataProfile(
+                            user,
+                            token,
+                            id,
+                            nopol,
+                            nama,
+                            manufactureYear,
+                            registrationYear,
+                            image);
+                      });
+                    },
+                    child: Hero(
+                      tag: 'profilePicture',
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                )
+                              ]),
+                          padding: EdgeInsets.all(50),
+                          child: pet.imageUrl == 'kosong'
+                              ? Text(
+                                  pet.petName.toString()[0].toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : Image.network(pet.imageUrl!)),
                     ),
                   ),
                   SizedBox(
