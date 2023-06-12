@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
         color: mPrimary,
         child: Center(
           child: Text(
-            'MEDICO',
+            'MEDIVET',
             style: title,
           ),
         ),

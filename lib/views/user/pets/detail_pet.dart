@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
+import 'package:medico_app/views/user/pets/form_pet.dart';
 
 import '../../../utils/helpers.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,7 +46,12 @@ class DetailPet extends StatelessWidget {
                 Container(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FormPet(
+                                    pet: pet,
+                                  )));
                     },
                     child: Text('Ubah'),
                   ),
@@ -74,15 +80,14 @@ class DetailPet extends StatelessWidget {
                             await SharedPreferences.getInstance();
                         String? token = sp.getString(keyPref);
 
-                        context.read(userProvider.notifier).storeDataProfile(
-                            user,
-                            token,
-                            id,
-                            nopol,
-                            nama,
-                            manufactureYear,
-                            registrationYear,
-                            image);
+                        // context.read(userProvider.notifier).storeDataProfile(
+                        //     user,
+                        //     token,d
+                        //     nopol,
+                        //     nama,
+                        //     manufactureYear,
+                        //     registrationYear,
+                        //     image);
                       });
                     },
                     child: Hero(
@@ -97,7 +102,7 @@ class DetailPet extends StatelessWidget {
                                 )
                               ]),
                           padding: EdgeInsets.all(50),
-                          child: pet.imageUrl == 'kosong'
+                          child: pet.image == 'kosong'
                               ? Text(
                                   pet.petName.toString()[0].toUpperCase(),
                                   style: TextStyle(
@@ -105,7 +110,7 @@ class DetailPet extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )
-                              : Image.network(pet.imageUrl!)),
+                              : Image.network(pet.image!)),
                     ),
                   ),
                   SizedBox(

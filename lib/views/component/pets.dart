@@ -36,7 +36,8 @@ class _PetsSectionState extends State<PetsSection> {
   bool isloading = true;
 
   Future<void> getDataProfile() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
     if (isconnected) {
       user = UserModel();
       context.read(userProvider.notifier).getDataProfile().then((value) {
@@ -80,54 +81,67 @@ class _PetsSectionState extends State<PetsSection> {
             ),
             child: Row(
               children: [
+                // Container(
+                //   width: 60,
+                //   child: Column(
+                //     children: [
+                //       MaterialButton(
+                //         onPressed: () {
+                //           // Navigator.push(context,
+                //           //     MaterialPageRoute(builder: (context) => CreatePet()));
+                //         },
+                //         padding: EdgeInsets.all(10),
+                //         color: Color.fromARGB(255, 255, 255, 255),
+                //         textColor: Color.fromARGB(255, 0, 13, 194),
+                //         child: Icon(
+                //           Icons.add,
+                //           size: 30,
+                //         ),
+                //         shape: CircleBorder(),
+                //       ),
+                //       // Text('Tambah')
+                //     ],
+                //   ),
+                // ),
                 Container(
                   width: 60,
                   child: Column(
                     children: [
-                      MaterialButton(
-                        onPressed: () {
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => CreatePet()));
-                        },
-                        padding: EdgeInsets.all(10),
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        textColor: Color.fromARGB(255, 0, 13, 194),
-                        child: Icon(
-                          Icons.add,
-                          size: 30,
-                        ),
-                        shape: CircleBorder(),
-                      ),
-                      // Text('Tambah')
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 60,
-                  child: Column(
-                    children: [
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailPet(
-                                        pet: pets[0],
-                                      )));
-                        },
-                        padding: EdgeInsets.all(10),
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        textColor: Color.fromARGB(255, 0, 13, 194),
-                        child: Text(
-                          pets[0].petName.toString()[0].toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        shape: CircleBorder(),
-                      ),
+                      pets[0].image == 'kosong'
+                          ? MaterialButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailPet(
+                                              pet: pets[0],
+                                            )));
+                              },
+                              padding: EdgeInsets.all(10),
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              textColor: Color.fromARGB(255, 0, 13, 194),
+                              child: Text(
+                                pets[0].image.toString()[0].toUpperCase(),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              shape: CircleBorder(),
+                            )
+                          : InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailPet(
+                                            pet: pets[0],
+                                          ))),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(pets[0].image!),
+                                radius: 25,
+                              ),
+                            )
                       // Text(pets[0].petName.toString())
                     ],
                   ),

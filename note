@@ -5,11 +5,11 @@
 5. app bar mepet , step nya dibuat lebih rapi lagi => Waiting to chosse Step or another
 6. Button Selanjutnya diganti warna => Done
 7. Detail Reservasi : lihat Go Jek
-    - Jarak antar item terlalu mepet
-    - jarak label terlalu panjang
-    - Sub-klinik => Poli
-    - Tanggal , bulan diganti Nama
-    - Jam
+   - Jarak antar item terlalu mepet
+   - jarak label terlalu panjang
+   - Sub-klinik => Poli
+   - Tanggal , bulan diganti Nama
+   - Jam
 8. Halaman sukses
 9. App bar harus putih
 10. Label Status => Done (Tetap dari mobile)
@@ -17,3 +17,23 @@
 12. Footer menu
 13. FCM
 14. Boarding
+
+Medivet
+catatan belum ada form input
+foto default
+success page
+detail reservasi belum
+Riwayat worksession = 80
+
+form edit hewan :
+spesies hewan =>
+tanggal lahir => view local datetime
+image {
+fileName
+downloadLink
+}
+jenis kelamin (1 & 0) => Jantan / Betina
+
+Daftar Reservasi
+
+- detail

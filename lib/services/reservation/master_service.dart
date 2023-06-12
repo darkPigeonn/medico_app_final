@@ -17,7 +17,7 @@ class MasterService {
 
   Future<List<OutletModel>> getLokets() async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -53,7 +53,7 @@ class MasterService {
 
   Future<List<Layanan>> getLayanan(String outlet) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -86,7 +86,7 @@ class MasterService {
   Future<List<WaktuTersedia>> getWaktuTersedia(
       String outlet, String date, String servicesId) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
 
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});

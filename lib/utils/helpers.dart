@@ -41,8 +41,11 @@ class CheckConnectivity {
         return true;
       }
     } catch (e) {
+      print("errro bro");
+      print(e);
       return false;
     }
+    // return true;
   }
 }
 
@@ -102,6 +105,8 @@ Future<String> uploadImages(File file, String id) async {
   var _filePathDigitalOcean =
       "https://cdn.ptalia.co.id" + '/medivet/pets/' + _fileName + _extension;
 
+//downloadLink
+//fileName
   dospace.Bucket bucket = spaces.bucket('ptalia');
 
   try {

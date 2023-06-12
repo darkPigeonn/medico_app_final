@@ -43,7 +43,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isloading = true;
 
   Future<void> getDataProfile() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
 
     if (isconnected) {
       user = UserModel();

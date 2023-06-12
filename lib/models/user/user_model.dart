@@ -21,7 +21,9 @@ class UserModel {
   UserModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     address = json['address'];
-    phone = json['phones'][0];
+    // if (json['phone']) {
+    //   phone = json['phone'];
+    // }
     email = json['email'];
     sex = json['sex'];
     dob = json['dob'];

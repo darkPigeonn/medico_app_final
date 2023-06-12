@@ -1,4 +1,5 @@
 import 'package:medico_app/models/reservation/reservation_model.dart';
+import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/models/user/respon_top_up.dart';
 import 'package:medico_app/models/user/topup_model.dart';
 import 'package:medico_app/models/user/user_model.dart';
@@ -48,6 +49,21 @@ class UserProvider extends StateNotifier<UserModel> {
 
       final result = await _userService!.storeData(user, token, id, nopol, nama,
           manufactureYear, registrationYear, image);
+
+      return result;
+    } catch (e) {
+      throw (e);
+    }
+  }
+
+  Future<UserModel> storeDataPatient(
+    Map pet,
+    String id,
+  ) async {
+    try {
+      print('user provider ==> store data..');
+
+      final result = await _userService!.storeDataPatient(pet, id);
 
       return result;
     } catch (e) {

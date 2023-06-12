@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:medico_app/models/reservation/reservation_model.dart';
+import 'package:medico_app/models/user/patient_model.dart';
 import 'package:medico_app/models/user/respon_top_up.dart';
 import 'package:medico_app/models/user/topup_model.dart';
 import 'package:medico_app/models/user/user_model.dart';
@@ -21,11 +22,12 @@ class UserService {
     String? token = sp.getString(keyPref);
 
     // try {
-    bool isConnect = await CheckConnectivity.checkConnection();
+    print('log');
+    print('hai');
+    bool isConnect = true;
     if (!isConnect) {
       throw ({'msg': 'tdak ada internet'});
     }
-    print(token);
     print("auth service ==> profile...");
     final url = Uri.parse(urlApi + 'users/profile');
     final response = await http.get(
@@ -38,11 +40,10 @@ class UserService {
     );
     var dataErr;
     var data = json.decode(response.body);
-
+    print('data');
+    print(data);
     if (response.statusCode == 200) {
       UserModel user = UserModel.fromJson(data);
-      print("user");
-      print(user);
       return user;
     } else {
       dataErr = {'msg': data['message']};
@@ -50,6 +51,7 @@ class UserService {
     }
     // } catch (e) {
     //   print('error bro');
+    //   print(e);
     //   inspect(e);
     //   rethrow;
     // }
@@ -65,7 +67,7 @@ class UserService {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(keyPref);
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -118,7 +120,7 @@ class UserService {
     String image,
   ) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -166,10 +168,47 @@ class UserService {
     }
   }
 
+  Future<UserModel> storeDataPatient(Map pet, String id) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString(keyPref);
+    // try {
+    bool isConnect = true;
+    if (!isConnect) {
+      throw ({'msg': 'tdak ada internet'});
+    }
+
+    print("auth service ==> profile patient...");
+    print(pet);
+    final url = Uri.parse(urlApi + 'users/patient/' + id);
+
+    final response = await http.put(
+      url,
+      body: json.encode(pet),
+      headers: {
+        "Content-type": "application/json",
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    var dataErr;
+    var data = json.decode(response.body);
+    if (response.statusCode == 200) {
+      UserModel user = UserModel.fromJson(data['objects']);
+
+      return user;
+    } else {
+      dataErr = {'msg': data['message']};
+      throw (dataErr);
+    }
+    // } catch (e) {
+    //   throw (e);
+    // }
+  }
+
   Future<Map<String, dynamic>> deleteVehicle(
       String idVehicle, String token) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -206,7 +245,7 @@ class UserService {
     int nominal,
   ) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -251,7 +290,7 @@ class UserService {
 
   Future<ResponseTopUp> getStatusTopUp(String url) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -277,7 +316,7 @@ class UserService {
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString(keyPref);
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -312,7 +351,7 @@ class UserService {
     String? token = sp.getString(keyPref);
 
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -350,7 +389,7 @@ class UserService {
   //   SharedPreferences sp = await SharedPreferences.getInstance();
   //   String? token = sp.getString(keyPref);
   //   try {
-  //     bool isConnect = await CheckConnectivity.checkConnection();
+  //    bool isConnect = true;
   //     if (!isConnect) {
   //       throw ({'msg': 'tidak ada internet'});
   //     }

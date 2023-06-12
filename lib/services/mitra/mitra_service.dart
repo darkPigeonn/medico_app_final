@@ -16,7 +16,7 @@ class MitraService {
 
   Future<MitraModel> getMitra(String id) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -50,7 +50,7 @@ class MitraService {
 
   Future<Map<String, dynamic>> updateMitra(String id, MitraModel mitra) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -84,7 +84,7 @@ class MitraService {
   Future<Map<String, dynamic>> registerMitra(
       String namaMitra, String alamat, LatLng latlng) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -124,7 +124,7 @@ class MitraService {
 
   Future<Map<String, dynamic>> verifyOtp(String phone, String otp) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -158,7 +158,7 @@ class MitraService {
 
   Future<Map<String, dynamic>> sendOtp(String phone) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }

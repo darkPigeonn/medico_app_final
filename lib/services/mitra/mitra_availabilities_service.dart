@@ -14,7 +14,7 @@ class MitraAvailabilityService {
 
   Future<List<ServiceAvailability>> getMitraAvailability(int page) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -51,7 +51,7 @@ class MitraAvailabilityService {
 
   Future<ServiceAvailability> showMitraAvailability(String id) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -86,7 +86,7 @@ class MitraAvailabilityService {
 
   Future<Map<String, dynamic>> createMitraAvailabilities(String nama) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -122,7 +122,7 @@ class MitraAvailabilityService {
   Future<Map<String, dynamic>> updateMitraAvailabilities(
       String id, String nama) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -158,7 +158,7 @@ class MitraAvailabilityService {
 
   Future<Map<String, dynamic>> deleteMitraAvailabilities(String id) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }

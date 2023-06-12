@@ -159,7 +159,9 @@ class _CreateStep2State extends State<CreateStep2> {
                                                   Divider(),
                                                   Container(
                                                     child: Text('Rp ' +
-                                                        e.price.toString()),
+                                                        CurrencyFormat
+                                                            .convertToIdr(
+                                                                e.price, 2)),
                                                   )
                                                 ],
                                               ),
@@ -210,61 +212,61 @@ class _CreateStep2State extends State<CreateStep2> {
                     ],
                   ),
                 ),
-                  selectedServices.length > 0
-                      ? Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              color: Colors.green,
-                              width: double.infinity,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'TOTAL : ',
-                                          style: TextStyle(
-                                              color: mWhite,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Rp ' + totalPrice.toString(),
-                                          style: TextStyle(
-                                              color: mWhite,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
+                selectedServices.length > 0
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            color: Colors.green,
+                            width: double.infinity,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'TOTAL : ',
+                                        style: TextStyle(
+                                            color: mWhite,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Rp ' +
+                                            CurrencyFormat.convertToIdr(
+                                                totalPrice, 2),
+                                        style: TextStyle(
+                                            color: mWhite,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          generateSlideTransitionHorizontal(
-                                            CreateStep3(
-                                              subList: widget.sublist,
-                                              totalPrices: totalPrice,
-                                              selectedServices:
-                                                  selectedServices,
-                                              selectedAnimals:
-                                                  widget.selectedAnimals,
-                                            ),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        generateSlideTransitionHorizontal(
+                                          CreateStep3(
+                                            subList: widget.sublist,
+                                            totalPrices: totalPrice,
+                                            selectedServices: selectedServices,
+                                            selectedAnimals:
+                                                widget.selectedAnimals,
                                           ),
-                                        );
-                                      },
-                                      child: Text('Selanjutnya'))
-                                ],
-                              )), //last one
-                        )
-                      : Container()
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Selanjutnya'))
+                              ],
+                            )), //last one
+                      )
+                    : Container()
               ],
             ),
     );

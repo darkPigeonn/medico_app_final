@@ -15,10 +15,10 @@ class LogService {
 
   Future<List<LogReservasiModel>> getLogReservasi(int page) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       final url = Uri.parse(
           urlApi + 'v1/logs/?transaction_code=20&sort=desc&page=$page');
       final token = await getToken();
@@ -50,10 +50,10 @@ class LogService {
 
   Future<List<LogSaldoModel>> getLogSaldo(int page) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       final url = Uri.parse(
           urlApi + 'v1/logs/?transaction_code=10&sort=desc&page=$page');
 
@@ -86,7 +86,7 @@ class LogService {
 
   Future<List<LogNotifikasiModel>> getLogNotifikasi(int page) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }

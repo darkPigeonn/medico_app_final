@@ -18,7 +18,7 @@ class ReservationService {
     try {
       print("auth service ==> get reservation...");
 
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
 
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
@@ -52,7 +52,7 @@ class ReservationService {
 
   Future<Map<String, dynamic>> storeReservations(Map dataSave) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -89,7 +89,7 @@ class ReservationService {
 
   Future<Map<String, dynamic>> updateReservation() async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -123,7 +123,7 @@ class ReservationService {
 
   Future<Map<String, dynamic>> cancelReservation(String idReservation) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -168,7 +168,7 @@ class ReservationService {
     String? token = sp.getString(keyPref);
 
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }
@@ -210,7 +210,7 @@ class ReservationService {
     print('data');
 
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
+      bool isConnect = true;
       if (!isConnect) {
         throw ({'msg': 'tdak ada internet'});
       }

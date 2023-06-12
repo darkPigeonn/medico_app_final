@@ -65,7 +65,8 @@ class _HistoryMedicState extends State<HistoryMedic> {
   }
 
   Future<void> getVitalPatient() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
 
     if (isconnected) {
       context.read(userProvider.notifier).getDataProfile().then((value) {

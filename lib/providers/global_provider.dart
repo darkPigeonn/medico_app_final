@@ -1,4 +1,5 @@
 import 'package:medico_app/services/auth/auth_service.dart';
+import 'package:medico_app/services/invoices/invoices_service.dart';
 import 'package:medico_app/services/logs/log_service.dart';
 import 'package:medico_app/services/mitra/mitra_availabilities_service.dart';
 import 'package:medico_app/services/mitra/mitra_service.dart';
@@ -17,4 +18,5 @@ final logService = Provider((_) => LogService());
 final mitraAvailabilityService = Provider((_) => MitraAvailabilityService());
 final mitraServiceService = Provider((_) => MitraServiceService());
 final mitraService = Provider((_) => MitraService());
+final invoicesService = Provider((_) => InvoicesService());
 final globalLoading = StateProvider.autoDispose<bool>((ref) => false);

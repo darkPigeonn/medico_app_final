@@ -56,7 +56,8 @@ class _IndexReservationState extends State<IndexReservation> {
   }
 
   initialData() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
 
     if (isconnected) {
       setState(() {
@@ -88,7 +89,7 @@ class _IndexReservationState extends State<IndexReservation> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: mPrimary,
+        backgroundColor: Colors.white,
         actions: [
           // IconButton(
           //   onPressed: () {
@@ -134,7 +135,6 @@ class _IndexReservationState extends State<IndexReservation> {
 
                         return reservationData.when(
                           data: (data) {
-                            print(data.length);
                             if (data.length == 0) {
                               return Center(
                                 child: Text("Tidak Ada Data"),
@@ -148,11 +148,11 @@ class _IndexReservationState extends State<IndexReservation> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   generateSlideTransition(
-                                        //       ShowReservasi(data: data[index])),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          generateSlideTransition(
+                                              ShowReservasi(data: data[index])),
+                                        );
                                       },
                                       child: Container(
                                         margin: EdgeInsets.all(10),

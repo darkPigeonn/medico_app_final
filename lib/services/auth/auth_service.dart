@@ -33,56 +33,57 @@ class AuthService {
   }
 
   Future<Map<String, dynamic>> login(String phone, String password) async {
-    try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+    print(phone);
+    print(password);
+    // try {
+    //bool isConnect = true;
+    // if (!isConnect) {
+    //   throw ({'msg': 'tdak ada internet'});
+    // }
 
-      print("auth service ==> register...");
-      final url = Uri.parse(urlApi + 'users/session');
-      final deviceId = await getDeviceId();
+    print("auth service ==> register...");
+    final url = Uri.parse(urlApi + 'users/session');
+    final deviceId = await getDeviceId();
 
-      Map dataBody = {
-        'username': phone,
-        'password': password,
-        // 'device_id': deviceId
-      };
+    Map dataBody = {
+      'username': phone,
+      'password': password,
+      // 'device_id': deviceId
+    };
 
-      print(dataBody);
-      final response = await http.post(
-        url,
-        body: json.encode(dataBody),
-        headers: {
-          "id": APP_ID,
-          "secret": APP_SECRET,
-          "Content-type": "application/json"
-        },
-      );
-
-      var dataErr;
-      final Map<String, dynamic> data = json.decode(response.body);
-
-      if (response.statusCode == 200) {
-        clearLimiter();
-        saveSessionUser(data['profileToken']);
-        return data;
-      } else {
-        saveLimiter();
-        dataErr = {'code': data['code'], 'msg': data['message']};
-        throw (dataErr);
-      }
-    } catch (e) {
-      throw (e);
+    print(dataBody);
+    final response = await http.post(
+      url,
+      body: json.encode(dataBody),
+      headers: {
+        "id": APP_ID,
+        "secret": APP_SECRET,
+        "Content-type": "application/json"
+      },
+    );
+    var dataErr;
+    final Map<String, dynamic> data = json.decode(response.body);
+    print(data);
+    if (response.statusCode == 200) {
+      clearLimiter();
+      saveSessionUser(data['profileToken']);
+      return data;
+    } else {
+      saveLimiter();
+      dataErr = {'code': data['code'], 'msg': data['message']};
+      throw (dataErr);
     }
+    // } catch (e) {
+    //   throw (e);
+    // }
   }
 
   Future<Map<String, dynamic>> registrasi(Map registran) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
 
       print("auth service ==> register...");
       final url = Uri.parse(urlApi + 'users/account');
@@ -120,10 +121,10 @@ class AuthService {
 
   Future<Map<String, dynamic>> verifyOtp(String phone, String otp) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       print("auth service ==> otp...");
       final url = Uri.parse(urlApi + 'verify-otp?phone=$phone');
       final deviceId = await getDeviceId();
@@ -151,10 +152,10 @@ class AuthService {
 
   Future<Map<String, dynamic>> resednOtp(String phone) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       print("auth service ==> resend otp...");
       final url = Uri.parse(urlApi + 'send-otp');
 
@@ -181,10 +182,10 @@ class AuthService {
 
   Future<Map<String, dynamic>> forgotPassword(String phone) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       print("auth service ==> forget password...");
       final url = Uri.parse(urlApi + 'forgot-password/');
 
@@ -211,10 +212,10 @@ class AuthService {
   Future<Map<String, dynamic>> verifyForgotPassword(
       String phone, String otp) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       final url = Uri.parse(urlApi + 'verify-forgot-password/');
 
       Map dataBody = {'phone': phone, 'otp': otp};
@@ -244,10 +245,10 @@ class AuthService {
   Future<Map<String, dynamic>> storeResetPassword(
       String password, String vPassword, String token) async {
     try {
-      bool isConnect = await CheckConnectivity.checkConnection();
-      if (!isConnect) {
-        throw ({'msg': 'tdak ada internet'});
-      }
+      //bool isConnect = true;
+      // if (!isConnect) {
+      //   throw ({'msg': 'tdak ada internet'});
+      // }
       final url = Uri.parse(urlApi + 'reset-password/$token');
 
       Map dataBody = {'password': password, 'verify_password': vPassword};

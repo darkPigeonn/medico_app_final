@@ -109,8 +109,8 @@ class _CreateStep4State extends State<CreateStep4> {
                                           children: [
                                             CircleAvatar(
                                               radius: 22.0,
-                                              backgroundImage: NetworkImage(
-                                                  'https://paradepets.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTkxMzY1Nzg4NjczMzIwNTQ2/cutest-dog-breeds-jpg.jpg'),
+                                              backgroundImage:
+                                                  NetworkImage(e.image!),
                                               backgroundColor:
                                                   Colors.transparent,
                                             ),
@@ -282,22 +282,20 @@ class _CreateStep4State extends State<CreateStep4> {
       "services": servicesTemp,
     };
 
-
-      await context
-          .read(reservationProvider.notifier)
-          .storeReservation(dataSave)
-          .then((value2) {
-        if (value2['code'] == 200) {
-          messageSnackBarColor(context, 'Reservasi tersimpan', cSuccess);
-          Navigator.pushAndRemoveUntil(
-              context,
-              generateScaleTransition(DashBoardScreen(
-                selectedPage: 0,
-              )),
-              (route) => false);
-        }
-        // messageSnackBar(context, value['code']);
-
+    await context
+        .read(reservationProvider.notifier)
+        .storeReservation(dataSave)
+        .then((value2) {
+      if (value2['code'] == 200) {
+        messageSnackBarColor(context, 'Reservasi tersimpan', cSuccess);
+        Navigator.pushAndRemoveUntil(
+            context,
+            generateScaleTransition(DashBoardScreen(
+              selectedPage: 0,
+            )),
+            (route) => false);
+      }
+      // messageSnackBar(context, value['code']);
     }).catchError((onError) {
       messageSnackBarColor(context, onError['msg'], cFail);
     });

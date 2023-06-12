@@ -10,6 +10,7 @@ import 'package:medico_app/utils/const_color.dart';
 import 'package:medico_app/utils/helpers.dart';
 import 'package:medico_app/utils/message.dart';
 import 'package:medico_app/utils/primary_button.dart';
+import 'package:medico_app/utils/text_style.dart';
 import 'package:medico_app/utils/transition.dart';
 import 'package:medico_app/views/reservastion/step_1.dart';
 import 'package:medico_app/views/reservastion/step_2.dart';
@@ -58,7 +59,8 @@ class _CreateReservationState extends State<CreateReservation> {
   }
 
   initialData() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
 
     if (isconnected) {
       await context.read(userProvider.notifier).getDataProfile().then((value) {
@@ -205,7 +207,10 @@ class _CreateReservationState extends State<CreateReservation> {
                         itemCount: animals.length,
                         itemBuilder: (context, index) {
                           return CheckboxListTile(
-                            title: Text(animals[index].petName!),
+                            title: Text(animals[index]
+                                .petName!
+                                .toString()
+                                .capitalizeFirstofEach),
                             value: _selectedAnimals.contains(animals[index]),
                             onChanged: (value) {
                               if (value!) {

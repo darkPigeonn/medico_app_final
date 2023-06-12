@@ -77,6 +77,13 @@ class _CreateStep2State extends State<CreateStep3> {
     }
   }
 
+//catatan belum ada form input
+//foto default
+//success page
+// detail reservasi belum
+// Riwayat worksession = 80
+// jenis kelamin (1 & 0) => Jantan / Betina
+//
   @override
   Widget build(BuildContext context) {
     final hours = widget.subList.operationalHours;
@@ -214,81 +221,79 @@ class _CreateStep2State extends State<CreateStep3> {
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
                 Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        color: Colors.green,
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'TOTAL : ',
-                                    style: TextStyle(
-                                        color: mWhite,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Rp ' + widget.totalPrices.toString(),
-                                    style: TextStyle(
-                                        color: mWhite,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      color: Colors.green,
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'TOTAL : ',
+                                  style: TextStyle(
+                                      color: mWhite,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Rp ' + widget.totalPrices.toString(),
+                                  style: TextStyle(
+                                      color: mWhite,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  if (selectedDate == null ||
-                                      selectedWaktu == null) {
-                                    messageSnackBarColor(
-                                        context,
-                                        "Tanggal & Jam masih kosong!",
-                                        Colors.red);
-                                  } else {
-                                    var reservationDate =
-                                        selectedDate.toString() +
-                                            ',' +
-                                            selectedWaktu.label.toString();
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                if (selectedDate == null ||
+                                    selectedWaktu == null) {
+                                  messageSnackBarColor(
+                                      context,
+                                      "Tanggal & Jam masih kosong!",
+                                      Colors.red);
+                                } else {
+                                  var reservationDate =
+                                      selectedDate.toString() +
+                                          ',' +
+                                          selectedWaktu.label.toString();
 
-                                    var objectSave = {
+                                  var objectSave = {
                                     'patients': widget.selectedAnimals,
-                                      "subList": widget.subList,
-                                      "subOuletId": widget.subList.id,
-                                      "date": selectedDate,
-                                      "time": selectedWaktu,
-                                      "reservationDate": reservationDate,
-                                      "services": widget.selectedServices,
-                                      "total": widget.totalPrices
-                                    };
+                                    "subList": widget.subList,
+                                    "subOuletId": widget.subList.id,
+                                    "date": selectedDate,
+                                    "time": selectedWaktu,
+                                    "reservationDate": reservationDate,
+                                    "services": widget.selectedServices,
+                                    "total": widget.totalPrices
+                                  };
 
-                                    Navigator.push(
-                                        context,
-                                        generateSlideTransitionHorizontal(
-                                          CreateStep4(
-                                            dataSave: objectSave,
-                                          ),
-                                        ));
-                                  }
-                                  // );
-                                },
-                                child: Text('Selanjutnya'))
-                          ],
-                        )), //last one
-                  )
+                                  Navigator.push(
+                                      context,
+                                      generateSlideTransitionHorizontal(
+                                        CreateStep4(
+                                          dataSave: objectSave,
+                                        ),
+                                      ));
+                                }
+                                // );
+                              },
+                              child: Text('Selanjutnya'))
+                        ],
+                      )), //last one
+                )
               ],
             ),
     );

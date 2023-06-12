@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medico_app/models/menu_model.dart';
 import 'package:medico_app/models/modelResources.dart';
 import 'package:medico_app/providers/reservation/reservationData_provider%20.dart';
 import 'package:medico_app/providers/user/user_provider.dart';
@@ -7,9 +8,11 @@ import 'package:medico_app/utils/card/card_landscape.dart';
 import 'package:medico_app/utils/card/coraulse_card.dart';
 import 'package:medico_app/utils/const_color.dart';
 import 'package:medico_app/utils/helpers.dart';
+import 'package:medico_app/utils/menucard.dart';
 import 'package:medico_app/utils/message.dart';
 import 'package:medico_app/utils/text_style.dart';
 import 'package:medico_app/utils/transition.dart';
+import 'package:medico_app/views/invoices/list.dart';
 import 'package:medico_app/views/log/notifikasi_log_screen.dart';
 import 'package:medico_app/views/log/saldo_log_screen.dart';
 import 'package:medico_app/views/reservastion/create_screen.dart';
@@ -48,10 +51,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   initialData() async {
-    isconnected = await CheckConnectivity.checkConnection();
+    isconnected = true;
 
     if (isconnected) {
       context.refresh(userProviderData).catchError((onError) {
+        print("onError");
+        print(onError);
         setState(() {
           isloading = false;
         });
@@ -114,20 +119,23 @@ class _MainScreenState extends State<MainScreen> {
         slug: 'slug',
         imageLink: 'imageLink');
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 0, 68, 255),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: SafeArea(
         bottom: false,
         child: Stack(
           children: [
-            Container(
-              color: Colors.white,
-              height: double.infinity,
-              margin: EdgeInsets.only(top: size.height * 0.35),
+            ClipPath(
+              clipper: ClipPathClass(),
+              child: Container(
+                height: 300,
+                width: double.infinity,
+                color: Color.fromARGB(255, 0, 34, 229),
+              ),
             ),
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TopBar(),
@@ -156,13 +164,13 @@ class _MainScreenState extends State<MainScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    Text(
-                      'Baca Artikel Terkini',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    // Text(
+                    //   'Baca Artikel Terkini',
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 10,
                     ),
@@ -174,16 +182,16 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Beranda',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profil',
-        ),
-      ]),
+      // bottomNavigationBar: BottomNavigationBar(items: [
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.home),
+      //     label: 'Beranda',
+      //   ),
+      //   BottomNavigationBarItem(
+      //     icon: Icon(Icons.person),
+      //     label: 'Profil',
+      //   ),
+      // ]),
     );
   }
 
@@ -424,84 +432,158 @@ class _MenuSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => IndexReservation()));
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    textColor: Color.fromARGB(255, 0, 0, 0),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.task,
-                          size: 60,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Daftar Reservasi')
-                      ],
-                    ),
-                    padding: EdgeInsets.all(10),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateReservation(),
-                        ),
-                      );
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    textColor: Color.fromARGB(255, 0, 0, 0),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.add_task,
-                          size: 60,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Buat Reservasi')
-                      ],
-                    ),
-                    padding: EdgeInsets.all(10),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        )
-      ],
+    final List<MenuModel> listMenu = [
+      MenuModel(
+        onPressed: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => IndexReservation())),
+        icon: const Icon(
+          Icons.task,
+          color: mPrimary,
+        ),
+        labelText: 'Daftar Reservasi',
+      ),
+      MenuModel(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateReservation(),
+          ),
+        ),
+        icon: const Icon(
+          Icons.add_task,
+          color: mPrimary,
+        ),
+        labelText: 'Buat Reservasi',
+      ),
+      MenuModel(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const InvoicesPage(),
+          ),
+        ),
+        icon: const Icon(
+          Icons.article,
+          color: mPrimary,
+        ),
+        labelText: 'Daftar Tagihan',
+      ),
+    ];
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(4),
+      itemCount: listMenu.length,
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
+        final menuItem = listMenu[index];
+        return MenuCard(
+          onPressed: menuItem.onPressed,
+          icon: menuItem.icon,
+          labelText: menuItem.labelText,
+        );
+      },
+      // child: Column(
+      //   children: [
+      //     Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children: [
+      //         SizedBox(
+      //           child: Column(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             children: [
+      //               MaterialButton(
+      //                 onPressed: () {
+      //                   Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                           builder: (context) => IndexReservation()));
+      //                 },
+      //                 shape: RoundedRectangleBorder(
+      //                     borderRadius: BorderRadius.circular(10.0)),
+      //                 color: const Color.fromARGB(255, 255, 255, 255),
+      //                 textColor: const Color.fromARGB(255, 0, 0, 0),
+      //                 child: const Column(
+      //                   children: [
+      //                     Icon(
+      //                       Icons.task,
+      //                       size: 60,
+      //                       color: Colors.blue,
+      //                     ),
+      //                     SizedBox(
+      //                       height: 10,
+      //                     ),
+      //                     Text('Daftar Reservasi')
+      //                   ],
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //         Container(
+      //           child: Column(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             children: [
+      //               MaterialButton(
+      //                 onPressed: () {
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                       builder: (context) => CreateReservation(),
+      //                     ),
+      //                   );
+      //                 },
+      //                 shape: RoundedRectangleBorder(
+      //                     borderRadius: BorderRadius.circular(10.0)),
+      //                 color: Color.fromARGB(255, 255, 255, 255),
+      //                 textColor: Color.fromARGB(255, 0, 0, 0),
+      //                 child: Column(
+      //                   children: [
+      //                     Icon(
+      //                       Icons.add_task,
+      //                       size: 60,
+      //                       color: Colors.blue,
+      //                     ),
+      //                     SizedBox(
+      //                       height: 10,
+      //                     ),
+      //                     Text('Buat Reservasi')
+      //                   ],
+      //                 ),
+      //                 padding: EdgeInsets.all(10),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ],
+      //     )
+      //   ],
+      // ),
     );
   }
+}
+
+class ClipPathClass extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 60);
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 60,
+    );
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

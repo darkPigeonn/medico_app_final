@@ -45,7 +45,8 @@ class _TopBarState extends State<TopBar> {
   bool isloading = true;
 
   Future<void> getDataProfile() async {
-    bool isconnected = await CheckConnectivity.checkConnection();
+    bool isConnect = true;
+    bool isconnected = true;
     if (isconnected) {
       user = UserModel();
       namaController = TextEditingController(text: '');
@@ -55,6 +56,7 @@ class _TopBarState extends State<TopBar> {
       }).catchError((onError) {
         messageSnackBar(context, onError['msg']);
       });
+      isloading = false;
     } else {
       messageSnackBar(context, 'Tidak ada intenet');
     }
@@ -177,75 +179,82 @@ class _TopBarState extends State<TopBar> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        : namaController.text == ""
+            ? Center(
+                child: Text(
+                  'Gagal mengambil data',
+                  style: TextStyle(color: mWhite),
+                ),
+              )
+            : Column(
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Hero(
-                          tag: 'profilePicture',
-                          child: CircleAvatar(
-                            radius: 25.0,
-                            backgroundColor: mPrimary,
-                            child: Text(
-                              "${namaController.text[0].toUpperCase()}",
-                              style: TextStyle(
-                                color: mFillColor,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: Hero(
+                              tag: 'profilePicture',
+                              child: CircleAvatar(
+                                radius: 25.0,
+                                backgroundColor: mPrimary,
+                                child: Text(
+                                  "${namaController.text[0].toUpperCase()}",
+                                  style: TextStyle(
+                                    color: mFillColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Selamat Pagi !',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          SizedBox(
+                            width: 10,
                           ),
-                          Text(
-                            namaController.text.toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Selamat Pagi !',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                namaController.text.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )
                         ],
+                      ),
+                      Container(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NotifikasiPage()));
+                          },
+                          icon: Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          ),
+                        ),
                       )
                     ],
-                  ),
-                  Container(
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotifikasiPage()));
-                      },
-                      icon: Icon(
-                        Icons.notifications,
-                        color: Colors.white,
-                      ),
-                    ),
                   )
                 ],
-              )
-            ],
-          );
+              );
     // return Container(
     //   padding: EdgeInsets.all(20),
     //   child: Row(
