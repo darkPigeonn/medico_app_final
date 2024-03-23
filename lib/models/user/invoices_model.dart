@@ -4,10 +4,12 @@
 
 import 'dart:convert';
 
-InvoicesModel invoicesModelFromJson(String str) =>
-    InvoicesModel.fromJson(json.decode(str));
+List<InvoicesModel> invoicesModelFromJson(String str) =>
+    List<InvoicesModel>.from(
+        json.decode(str).map((x) => InvoicesModel.fromJson(x)));
 
-String invoicesModelToJson(InvoicesModel data) => json.encode(data.toJson());
+String invoicesModelToJson(List<InvoicesModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class InvoicesModel {
   String? id;
@@ -15,11 +17,6 @@ class InvoicesModel {
   List<MsList>? msList;
   String? customerId;
   String? customerName;
-  List<Medicine>? medicines;
-  List<CustomItem>? petFoods;
-  List<CustomItem>? labServices;
-  List<CustomItem>? customItems;
-  List<Service>? services;
   int? surcharge;
   int? ongkir;
   int? courier;
@@ -42,7 +39,6 @@ class InvoicesModel {
   String? createdBy;
   String? cashierId;
   String? cashierName;
-  CreatedAt? paymentTimestamp;
 
   InvoicesModel({
     this.id,
@@ -50,11 +46,6 @@ class InvoicesModel {
     this.msList,
     this.customerId,
     this.customerName,
-    this.medicines,
-    this.petFoods,
-    this.labServices,
-    this.customItems,
-    this.services,
     this.surcharge,
     this.ongkir,
     this.courier,
@@ -77,7 +68,6 @@ class InvoicesModel {
     this.createdBy,
     this.cashierId,
     this.cashierName,
-    this.paymentTimestamp,
   });
 
   factory InvoicesModel.fromJson(Map<String, dynamic> json) => InvoicesModel(
@@ -88,26 +78,6 @@ class InvoicesModel {
             : List<MsList>.from(json["msList"]!.map((x) => MsList.fromJson(x))),
         customerId: json["customerId"],
         customerName: json["customerName"],
-        medicines: json["medicines"] == null
-            ? []
-            : List<Medicine>.from(
-                json["medicines"]!.map((x) => Medicine.fromJson(x))),
-        petFoods: json["petFoods"] == null
-            ? []
-            : List<CustomItem>.from(
-                json["petFoods"]!.map((x) => CustomItem.fromJson(x))),
-        labServices: json["labServices"] == null
-            ? []
-            : List<CustomItem>.from(
-                json["labServices"]!.map((x) => CustomItem.fromJson(x))),
-        customItems: json["customItems"] == null
-            ? []
-            : List<CustomItem>.from(
-                json["customItems"]!.map((x) => CustomItem.fromJson(x))),
-        services: json["services"] == null
-            ? []
-            : List<Service>.from(
-                json["services"]!.map((x) => Service.fromJson(x))),
         surcharge: json["surcharge"],
         ongkir: json["ongkir"],
         courier: json["courier"],
@@ -134,9 +104,6 @@ class InvoicesModel {
         createdBy: json["createdBy"],
         cashierId: json["cashierId"],
         cashierName: json["cashierName"],
-        paymentTimestamp: json["paymentTimestamp"] == null
-            ? null
-            : CreatedAt.fromJson(json["paymentTimestamp"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -147,21 +114,6 @@ class InvoicesModel {
             : List<dynamic>.from(msList!.map((x) => x.toJson())),
         "customerId": customerId,
         "customerName": customerName,
-        "medicines": medicines == null
-            ? []
-            : List<dynamic>.from(medicines!.map((x) => x.toJson())),
-        "petFoods": petFoods == null
-            ? []
-            : List<dynamic>.from(petFoods!.map((x) => x.toJson())),
-        "labServices": labServices == null
-            ? []
-            : List<dynamic>.from(labServices!.map((x) => x.toJson())),
-        "customItems": customItems == null
-            ? []
-            : List<dynamic>.from(customItems!.map((x) => x.toJson())),
-        "services": services == null
-            ? []
-            : List<dynamic>.from(services!.map((x) => x.toJson())),
         "surcharge": surcharge,
         "ongkir": ongkir,
         "courier": courier,
@@ -184,7 +136,6 @@ class InvoicesModel {
         "createdBy": createdBy,
         "cashierId": cashierId,
         "cashierName": cashierName,
-        "paymentTimestamp": paymentTimestamp?.toJson(),
       };
 }
 
@@ -206,16 +157,91 @@ class CreatedAt {
       };
 }
 
+class MsList {
+  Id? id;
+  String? name;
+  int? total;
+  String? patientId;
+  String? patientName;
+  List<Medicine>? medicines;
+  List<Medicine>? petFoods;
+  List<CustomItem>? labServices;
+  List<CustomItem>? customItems;
+  List<Service>? services;
+
+  MsList({
+    this.id,
+    this.name,
+    this.total,
+    this.patientId,
+    this.patientName,
+    this.medicines,
+    this.petFoods,
+    this.labServices,
+    this.customItems,
+    this.services,
+  });
+
+  factory MsList.fromJson(Map<String, dynamic> json) => MsList(
+        id: idValues.map[json["_id"]]!,
+        name: json["name"],
+        total: json["total"],
+        patientId: json["patientId"],
+        patientName: json["patientName"],
+        medicines: json["medicines"] == null
+            ? []
+            : List<Medicine>.from(
+                json["medicines"]!.map((x) => Medicine.fromJson(x))),
+        petFoods: json["petFoods"] == null
+            ? []
+            : List<Medicine>.from(
+                json["petFoods"]!.map((x) => Medicine.fromJson(x))),
+        labServices: json["labServices"] == null
+            ? []
+            : List<CustomItem>.from(
+                json["labServices"]!.map((x) => CustomItem.fromJson(x))),
+        customItems: json["customItems"] == null
+            ? []
+            : List<CustomItem>.from(
+                json["customItems"]!.map((x) => CustomItem.fromJson(x))),
+        services: json["services"] == null
+            ? []
+            : List<Service>.from(
+                json["services"]!.map((x) => Service.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": idValues.reverse[id],
+        "name": name,
+        "total": total,
+        "patientId": patientId,
+        "patientName": patientName,
+        "medicines": medicines == null
+            ? []
+            : List<dynamic>.from(medicines!.map((x) => x.toJson())),
+        "petFoods": petFoods == null
+            ? []
+            : List<dynamic>.from(petFoods!.map((x) => x.toJson())),
+        "labServices": labServices == null
+            ? []
+            : List<dynamic>.from(labServices!.map((x) => x.toJson())),
+        "customItems": customItems == null
+            ? []
+            : List<dynamic>.from(customItems!.map((x) => x.toJson())),
+        "services": services == null
+            ? []
+            : List<dynamic>.from(services!.map((x) => x.toJson())),
+      };
+}
+
 class CustomItem {
   String? id;
   String? name;
   int? price;
   int? qty;
   int? subtotal;
-  String? msId;
+  Id? msId;
   bool? isCustom;
-  String? stockId;
-  int? cogs;
 
   CustomItem({
     this.id,
@@ -225,8 +251,6 @@ class CustomItem {
     this.subtotal,
     this.msId,
     this.isCustom,
-    this.stockId,
-    this.cogs,
   });
 
   factory CustomItem.fromJson(Map<String, dynamic> json) => CustomItem(
@@ -235,10 +259,8 @@ class CustomItem {
         price: json["price"],
         qty: json["qty"],
         subtotal: json["subtotal"],
-        msId: json["msId"],
+        msId: idValues.map[json["msId"]]!,
         isCustom: json["isCustom"],
-        stockId: json["stockId"],
-        cogs: json["cogs"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -247,12 +269,14 @@ class CustomItem {
         "price": price,
         "qty": qty,
         "subtotal": subtotal,
-        "msId": msId,
+        "msId": idValues.reverse[msId],
         "isCustom": isCustom,
-        "stockId": stockId,
-        "cogs": cogs,
       };
 }
+
+enum Id { X_R4_C_T879_IT_XZK_JG_E9 }
+
+final idValues = EnumValues({"xR4cT879itXzkJgE9": Id.X_R4_C_T879_IT_XZK_JG_E9});
 
 class Medicine {
   String? id;
@@ -264,7 +288,7 @@ class Medicine {
   String? stockId;
   String? requestId;
   bool? needPres;
-  String? msId;
+  Id? msId;
 
   Medicine({
     this.id,
@@ -289,7 +313,7 @@ class Medicine {
         stockId: json["stockId"],
         requestId: json["requestId"],
         needPres: json["needPres"],
-        msId: json["msId"],
+        msId: idValues.map[json["msId"]]!,
       );
 
   Map<String, dynamic> toJson() => {
@@ -302,39 +326,7 @@ class Medicine {
         "stockId": stockId,
         "requestId": requestId,
         "needPres": needPres,
-        "msId": msId,
-      };
-}
-
-class MsList {
-  String? id;
-  String? name;
-  int? total;
-  String? patientId;
-  String? patientName;
-
-  MsList({
-    this.id,
-    this.name,
-    this.total,
-    this.patientId,
-    this.patientName,
-  });
-
-  factory MsList.fromJson(Map<String, dynamic> json) => MsList(
-        id: json["_id"],
-        name: json["name"],
-        total: json["total"],
-        patientId: json["patientId"],
-        patientName: json["patientName"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "total": total,
-        "patientId": patientId,
-        "patientName": patientName,
+        "msId": idValues.reverse[msId],
       };
 }
 
@@ -343,7 +335,7 @@ class Service {
   int? price;
   int? qty;
   int? subtotal;
-  String? msId;
+  Id? msId;
   String? sid;
   int? type;
 
@@ -362,7 +354,7 @@ class Service {
         price: json["price"],
         qty: json["qty"],
         subtotal: json["subtotal"],
-        msId: json["msId"],
+        msId: idValues.map[json["msId"]]!,
         sid: json["sid"],
         type: json["type"],
       );
@@ -372,8 +364,20 @@ class Service {
         "price": price,
         "qty": qty,
         "subtotal": subtotal,
-        "msId": msId,
+        "msId": idValues.reverse[msId],
         "sid": sid,
         "type": type,
       };
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

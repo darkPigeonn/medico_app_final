@@ -9,7 +9,9 @@ import 'package:medico_app/utils/helpers.dart';
 import 'package:medico_app/utils/loading.dart';
 import 'package:medico_app/utils/message.dart';
 import 'package:medico_app/utils/styles.dart';
+import 'package:medico_app/utils/text_style.dart';
 import 'package:medico_app/utils/transition.dart';
+import 'package:medico_app/views/invoices/details.dart';
 import 'package:medico_app/views/log/reservasi_log_screen.dart';
 import 'package:medico_app/views/reservastion/show_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,6 +90,7 @@ class _InvoicesPageState extends State<InvoicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 230, 230, 230),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -113,152 +116,178 @@ class _InvoicesPageState extends State<InvoicesPage> {
                   child: CircularProgressIndicator(),
                 ),
               )
-            : Column(
-                children: [
-                  Expanded(
-                    child: Consumer(
-                      builder: (context, watch, child) {
-                        final reservationData = watch(invoicesProvider);
+            : Container(
+                margin: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Consumer(
+                        builder: (context, watch, child) {
+                          final reservationData = watch(invoicesProvider);
 
-                        return reservationData.when(
-                          data: (data) {
-                            if (data.length == 0) {
-                              return Center(
-                                child: Text("Tidak Ada Data"),
-                              );
-                            }
-                            return ListView.builder(
-                              controller: controller,
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.only(bottom: 16),
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: whiteColor,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // Text(
-                                          //   DateFormat('d MMMM yyyy', 'id_ID')
-                                          //       .format(data[index]
-                                          //           .reservationDate!
-                                          //           .toString()),
-                                          //   style: Theme.of(context)
-                                          //       .textTheme
-                                          //       .bodyLarge,
-                                          // ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons
-                                                    .check_circle_outline_rounded,
-                                                color: Colors.green,
-                                              ),
-                                              const SizedBox(width: 4),
-                                              Text(
-                                                'Selesai',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                        color: Colors.green),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      const Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 16),
-                                        child:
-                                            Divider(thickness: 0.2, height: 1),
-                                      ),
-                                      const Text('Nama Member :'),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        " data[index].name.toString()",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(color: blueColor),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const Text('Total :'),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                "0",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge!
-                                                    .copyWith(color: blueColor),
-                                              ),
-                                            ],
-                                          ),
-                                          // Text(
-                                          //   "transaction.",
-                                          //   style: Theme.of(context)
-                                          //       .textTheme
-                                          //       .bodyLarge!
-                                          //       .copyWith(color: blueColor),
-                                          // ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                          return reservationData.when(
+                            data: (data) {
+                              if (data.length == 0) {
+                                return Center(
+                                  child: Text("Tidak Ada Data"),
                                 );
-                              },
-                            );
-                          },
-                          loading: () => Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          error: (error, st) {
-                            final er = error.toString();
-                            return ListView(
-                              children: [
-                                Center(
-                                  child: Text(er),
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
+                              }
+                              return ListView.builder(
+                                controller: controller,
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => DetailsInvoice(
+                                                    invoices: data[index],
+                                                  )));
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(bottom: 16),
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: whiteColor,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                DateFormat(
+                                                        'd MMMM yyyy', 'id_ID')
+                                                    .format(data[index]
+                                                        .invoiceDate!
+                                                        .date!),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons
+                                                        .check_circle_outline_rounded,
+                                                    color: Colors.green,
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text(
+                                                    'Selesai',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.green),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 16),
+                                            child: Divider(
+                                                thickness: 0.2, height: 1),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text('Nama Member :'),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    data[index]
+                                                        .customerName
+                                                        .toString()
+                                                        .capitalizeFirstofEach,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color: blueColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text('Total :'),
+                                                  Text(
+                                                    data[index]
+                                                        .totalPurchase!
+                                                        .intToFormatRupiah,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .copyWith(
+                                                            color: blueColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              // Text(
+                                              //   "transaction.",
+                                              //   style: Theme.of(context)
+                                              //       .textTheme
+                                              //       .bodyLarge!
+                                              //       .copyWith(color: blueColor),
+                                              // ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            loading: () => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            error: (error, st) {
+                              final er = error.toString();
+                              return ListView(
+                                children: [
+                                  Center(
+                                    child: Text(er),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  ProviderListener<StateController<bool>>(
-                    onChange: (context, loading) async {
-                      if (loading.state) {
-                        await LoadingWidget.showDialogLoading(context);
-                      } else {
-                        Navigator.pop(context);
-                        controller.animateTo(
-                          controller.position.maxScrollExtent,
-                          duration: Duration(seconds: 1),
-                          curve: Curves.fastOutSlowIn,
-                        );
-                      }
-                    },
-                    provider: globalLoading,
-                    child: Container(),
-                  ),
-                ],
+                    ProviderListener<StateController<bool>>(
+                      onChange: (context, loading) async {
+                        if (loading.state) {
+                          await LoadingWidget.showDialogLoading(context);
+                        } else {
+                          Navigator.pop(context);
+                          controller.animateTo(
+                            controller.position.maxScrollExtent,
+                            duration: Duration(seconds: 1),
+                            curve: Curves.fastOutSlowIn,
+                          );
+                        }
+                      },
+                      provider: globalLoading,
+                      child: Container(),
+                    ),
+                  ],
+                ),
               ),
       ),
     );

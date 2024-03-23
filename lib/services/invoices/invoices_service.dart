@@ -12,26 +12,27 @@ class InvoicesService {
   }
 
   Future<List<InvoicesModel>> getInvoices(int page) async {
-    try {
-      final url = Uri.parse(urlApi2 + 'invoices/get-all');
-      final token = await getToken();
+    // try {
+    final url = Uri.parse(urlApi2 + 'invoices/get-all');
+    final token = await getToken();
 
-      final response =
-          await http.get(url, headers: {'Authorization': 'Bearer $token'});
+    final response =
+        await http.get(url, headers: {'Authorization': 'Bearer $token'});
 
-      var dataErr;
-      var data = json.decode(response.body);
+    var dataErr;
+    var data = json.decode(response.body);
+    print(data);
 
-      if (response.statusCode == 200) {
-        var objects = response.body as List;
+    if (response.statusCode == 200) {
+      var objects = data as List;
 
-        return objects.map((e) => InvoicesModel.fromJson(e)).toList();
-      } else {
-        dataErr = {'msg': data['message']};
-        throw (dataErr);
-      }
-    } catch (e) {
-      throw (e);
+      return objects.map((e) => InvoicesModel.fromJson(e)).toList();
+    } else {
+      dataErr = {'msg': data['message']};
+      throw (dataErr);
     }
+    // } catch (e) {
+    //   throw (e);
+    // }
   }
 }
